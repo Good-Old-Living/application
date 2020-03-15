@@ -1,0 +1,31 @@
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="app.domain.comm" xmlns:r="app.domain">
+
+	<xsd:import schemaLocation="../BOCommon.xsd" namespace="app.domain" />
+
+	<xsd:complexType name="SendSMS">
+		<xsd:sequence>
+			<xsd:element ref="r:id" />
+			<xsd:element name="number">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:maxLength value="100" />
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="message">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:maxLength value="256" />
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="sentOn" type="xsd:dateTime" />
+			<xsd:element name="reference" type="xsd:string" />
+			<xsd:element name="deliveredOn" type="xsd:dateTime"
+				minOccurs="0" />
+			<xsd:element name="state" type="xsd:string" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+</xsd:schema>

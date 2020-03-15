@@ -1,0 +1,29 @@
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="app.erp" xmlns="app.erp" xmlns:r="app.domain" xmlns:l="app.domain.location">
+
+	<xsd:import
+		schemaLocation="$APPLICATION_HOME/module/ApplicationModule-Core/metadata/app-module/Core/Business Objects/app/domain/BOCommon.xsd"
+		namespace="app.domain" />
+	<xsd:import
+		schemaLocation="$APPLICATION_HOME/module/ApplicationModule-Core/metadata/app-module/Core/Business Objects/app/domain/AppEntity.xsd"
+		namespace="app.domain" />
+	<xsd:import
+		schemaLocation="$APPLICATION_HOME/module/ApplicationModule-BusinessApp/metadata/app-module/Core/Business Objects/app/domain/location/Address.xsd"
+		namespace="app.domain.location" />
+
+	<xsd:complexType name="EnterpriseAddress">
+		<xsd:complexContent>
+			<xsd:extension base="r:AppEntity">
+				<xsd:sequence>
+					<xsd:element name="enterpriseId" type="r:EntityId" />
+					<xsd:element name="address" type="l:Address" />
+					<xsd:element name="isPrimary" type="xsd:boolean"
+						minOccurs="0" />
+				</xsd:sequence>
+				<xsd:attribute name="uniqueKey" default="enterpriseId,address" />
+			</xsd:extension>
+		</xsd:complexContent>
+
+	</xsd:complexType>
+
+</xsd:schema>

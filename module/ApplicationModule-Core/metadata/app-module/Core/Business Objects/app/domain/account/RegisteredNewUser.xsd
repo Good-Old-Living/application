@@ -1,0 +1,16 @@
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="app.domain.account" xmlns:an="app.entity.annotation" xmlns:r="app.domain">
+
+
+	<xsd:import schemaLocation="../BOCommon.xsd" namespace="app.domain" />
+	
+	<xsd:complexType name="RegisteredNewUser" an:transient="true">
+		<xsd:sequence>
+			<xsd:element ref="r:id" />
+			<xsd:element name="name" type="xsd:string" />
+			<xsd:element name="email" type="xsd:string" />
+			<xsd:element name="mobile" type="xsd:string" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+</xsd:schema>

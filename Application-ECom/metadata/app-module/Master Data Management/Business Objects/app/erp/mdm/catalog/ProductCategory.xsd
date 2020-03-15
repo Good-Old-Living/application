@@ -1,0 +1,44 @@
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    targetNamespace="app.erp.mdm.catalog" xmlns="app.erp.mdm.catalog" xmlns:r="app.domain"
+    xmlns:f="app.erp.finance" xmlns:an="app.entity.annotation" xmlns:sales="app.erp.mdm.sales">
+
+    <xsd:import
+        schemaLocation="$APPLICATION_HOME/module/ApplicationModule-Core/metadata/app-module/Core/Business Objects/app/domain/AppHierarchicalBaseEntity.xsd"
+        namespace="app.domain" />
+    <xsd:import
+        schemaLocation="$APPLICATION_HOME/Application-ECom/metadata/app-module/Finance/Business Objects/app/erp/finance/Tax.xsd"
+        namespace="app.erp.finance" />
+
+
+    <xsd:complexType name="ProductCategory">
+        <xsd:complexContent>
+            <xsd:extension base="r:AppHierarchicalBaseEntity">
+                <xsd:sequence>
+                    <xsd:element name="sortOrder" type="xsd:integer" minOccurs="0"
+                        default="0" />
+                    <!-- <xsd:element name="features" type="ProductCategoryFeature" an:mappedBy="categoryId" 
+                        minOccurs="0" maxOccurs="unbounded" /> -->
+                    <xsd:element name="isActive" type="xsd:boolean" default="true" />
+                    <xsd:element name="tags" type="xsd:string" minOccurs="0" />
+                    <xsd:element name="availability" type="xsd:string" minOccurs="0" />
+                    <xsd:element name="notes" minOccurs="0">
+                        <xsd:simpleType>
+                            <xsd:restriction base="xsd:string">
+                                <xsd:maxLength value="500" />
+                            </xsd:restriction>
+                        </xsd:simpleType>
+                    </xsd:element>
+                    <xsd:element ref="f:tax" minOccurs="0" />
+                    <xsd:element name="orderable" type="xsd:boolean" minOccurs="0" />
+                </xsd:sequence>
+                <xsd:attribute name="hierarchical" />
+                <xsd:attribute name="uniqueKey" default="qualifiedName" />
+            </xsd:extension>
+        </xsd:complexContent>
+
+    </xsd:complexType>
+
+    <xsd:element name="productCategory" type="ProductCategory" />
+
+
+</xsd:schema>

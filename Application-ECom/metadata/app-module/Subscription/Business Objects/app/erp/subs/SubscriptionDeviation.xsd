@@ -1,0 +1,38 @@
+<xsd:schema
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    targetNamespace="app.erp.subs"
+    xmlns="app.erp.subs"
+    xmlns:r="app.domain"
+    xmlns:c="app.erp.mdm.catalog">
+
+    <xsd:import
+        schemaLocation="$APPLICATION_HOME/module/ApplicationModule-Core/metadata/app-module/Core/Business Objects/app/domain/AppEntity.xsd"
+        namespace="app.domain" />
+
+
+    <xsd:complexType name="SubscriptionDeviation">
+        <xsd:complexContent>
+            <xsd:extension base="r:AppEntity">
+                <xsd:sequence>
+                    <xsd:element
+                        name="subscriptionLineItemId"
+                        type="xsd:long"
+                        minOccurs="0" />
+                    <xsd:element
+                        name="quantity"
+                        type="xsd:int" />
+                    <xsd:element
+                        name="startDate"
+                        type="xsd:date"/>
+                    <xsd:element
+                        name="endDate"
+                        type="xsd:date" />
+                </xsd:sequence>
+
+            </xsd:extension>
+        </xsd:complexContent>
+
+    </xsd:complexType>
+
+
+</xsd:schema>

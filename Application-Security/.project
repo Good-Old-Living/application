@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<projectDescription>
+	<name>Application-Security</name>
+	<comment></comment>
+	<projects>
+	</projects>
+	<buildSpec>
+		<buildCommand>
+			<name>org.eclipse.jdt.core.javabuilder</name>
+			<arguments>
+			</arguments>
+		</buildCommand>
+	</buildSpec>
+	<natures>
+		<nature>org.eclipse.jdt.core.javanature</nature>
+	</natures>
+	<linkedResources>
+		<link>
+			<name>web-account</name>
+			<type>2</type>
+			<location>/scratch/app/apache-tomcat-8.5.43/webapps/security</location>
+		</link>
+		<link>
+			<name>web-gfsecurity</name>
+			<type>2</type>
+			<location>/scratch/app/apache-tomcat-8.5.4/webapps/gfsecurity</location>
+		</link>
+	</linkedResources>
+</projectDescription>

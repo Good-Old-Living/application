@@ -1,0 +1,7 @@
+include ':module:ApplicationModule-Core'
+project(':module:ApplicationModule-Core').projectDir = new File(settingsDir, '../module/ApplicationModule-Core')
+include ':module:ApplicationModule-BusinessApp'
+project(':module:ApplicationModule-BusinessApp').projectDir = new File(settingsDir, '../module/ApplicationModule-BusinessApp')
+
+
+

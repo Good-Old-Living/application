@@ -1,0 +1,34 @@
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="app.domain.security" xmlns="app.domain.security" xmlns:r="app.domain">
+
+	<xsd:import schemaLocation="$APPLICATION_HOME/module/ApplicationModule-Core/metadata/app-module/Core/Business Objects/app/domain/AppEntity.xsd" namespace="app.domain" />
+
+	<xsd:include schemaLocation="Role.xsd" />
+
+	<xsd:complexType name="User">
+		<xsd:complexContent>
+			<xsd:extension base="r:AppEntity">
+				<xsd:sequence>
+					<xsd:element name="name" type="xsd:string" minOccurs="0" />
+					<xsd:element name="email" type="xsd:string" minOccurs="0" />
+					<!-- It may not be unique, as it may be used with multiple accounts -->
+					<xsd:element name="mobile" type="xsd:string" minOccurs="0" />
+					<xsd:element name="password" type="xsd:string" minOccurs="0" />
+					<xsd:element name="accessToken" type="xsd:string" minOccurs="0" />
+					<xsd:element ref="primaryRole" />
+					<xsd:element name="state" type="xsd:string" />
+					<xsd:element name="info" type="xsd:string" minOccurs="0" />
+					<xsd:element name="provider" type="xsd:string" minOccurs="0" />
+					<xsd:element name="providerId" type="xsd:string" minOccurs="0" />
+					<!-- <xsd:element name="createdOn" type="xsd:date" minOccurs="0" /> -->
+
+				</xsd:sequence>
+				<xsd:attribute name="uniqueKey" default="email" />
+				<xsd:attribute name="uniqueKey" default="mobile" />
+			</xsd:extension>
+		</xsd:complexContent>
+
+	</xsd:complexType>
+
+	<xsd:element name="primaryRole" type="Role" />
+	<xsd:element name="user" type="User" />
+</xsd:schema>

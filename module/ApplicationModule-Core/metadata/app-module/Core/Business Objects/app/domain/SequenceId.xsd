@@ -1,0 +1,16 @@
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="app.domain"
+	targetNamespace="app.domain" xmlns:domain="app.entity.annotation" version="1.0">
+
+
+	<xsd:complexType name="SequenceId">
+
+		<xsd:sequence>
+			<xsd:element name="id" type="xsd:long" domain:sequence="Identity"/>
+			<xsd:element name="entityId" type="xsd:long" />
+			<xsd:element name="name" type="xsd:string" />
+			<xsd:element name="value" type="xsd:long" />
+		</xsd:sequence>
+		<xsd:attribute name="uniqueKey" default="name"/>
+	</xsd:complexType>
+
+</xsd:schema>

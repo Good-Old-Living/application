@@ -1,0 +1,20 @@
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="app.domain" xmlns="app.domain">
+
+	<xsd:include schemaLocation="BOCommon.xsd" />
+	<xsd:include schemaLocation="AppEntity.xsd" />
+
+	<xsd:complexType name="AppEntitySequence">
+		<xsd:complexContent>
+			<xsd:extension base="AppEntity">
+				<xsd:sequence>
+				    <xsd:element ref="entityId" minOccurs="0"/>
+					<xsd:element name="name" type="xsd:string" />
+					<xsd:element name="value" type="xsd:long" />
+				</xsd:sequence>
+				<xsd:attribute name="uniqueKey" default="name" />
+				<xsd:attribute name="nameable" />
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+
+</xsd:schema>

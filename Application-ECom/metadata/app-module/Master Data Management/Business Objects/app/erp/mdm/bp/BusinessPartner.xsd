@@ -1,0 +1,27 @@
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="app.erp.mdm.bp" xmlns="app.erp.mdm.bp" xmlns:r="app.domain" xmlns:l="app.domain.location" xmlns:an="app.entity.annotation">
+
+<xsd:import schemaLocation="$APPLICATION_HOME/module/ApplicationModule-Core/metadata/app-module/Core/Business Objects/app/domain/BOCommon.xsd" namespace="app.domain" />
+    <xsd:import schemaLocation="$APPLICATION_HOME/module/ApplicationModule-Core/metadata/app-module/Core/Business Objects/app/domain/AppEntity.xsd" namespace="app.domain" />
+    <xsd:import schemaLocation="$APPLICATION_HOME/module/ApplicationModule-BusinessApp/metadata/app-module/Core/Business Objects/app/domain/location/Address.xsd" namespace="app.domain.location" />
+    
+    <xsd:include schemaLocation="BusinessPartnerGroup.xsd"/>
+    
+    <xsd:complexType name="BusinessPartner">
+        <xsd:complexContent>
+            <xsd:extension base="r:AppEntity">
+                <xsd:sequence>
+                    <xsd:element name="name" type="xsd:string"/>
+                    <xsd:element name="contactPerson" type="xsd:string"/>
+                    <xsd:element name="mobile" type="xsd:int"/>
+                    <xsd:element name="landline" type="xsd:int" minOccurs="0"/>
+					 <xsd:element name="email" type="xsd:string" minOccurs="0"/>
+					<xsd:element name="address" type="l:Address"/>
+				</xsd:sequence>
+				<xsd:attribute name="uniqueKey" default="name"/>
+            </xsd:extension>
+        </xsd:complexContent>
+
+    </xsd:complexType>
+
+    <xsd:element name="businessPartner" type="BusinessPartner" />
+</xsd:schema>

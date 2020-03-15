@@ -1,0 +1,73 @@
+<?xml version="1.0"?>
+<project
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>meru</groupId>
+		<artifactId>application</artifactId>
+		<version>1.0-SNAPSHOT</version>
+	</parent>
+	<groupId>meru.application</groupId>
+	<artifactId>Application-Designer</artifactId>
+	<version>1.0-SNAPSHOT</version>
+	<name>Application-Designer</name>
+	<url>http://maven.apache.org</url>
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<app.designer.home>${app.home}/designer</app.designer.home>
+	</properties>
+	<build>
+		<plugins>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-eclipse-plugin</artifactId>
+				<version>2.9</version>
+				<configuration>
+					<linkedResources>
+						<linkedResource>
+							<name>web-designer</name>
+							<type>2</type>
+							<location>${app.designer.home}</location>
+						</linkedResource>
+						<linkedResource>
+							<name>classes</name>
+							<type>2</type>
+							<location>${app.designer.home}/WEB-INF/classes</location>
+						</linkedResource>
+					</linkedResources>
+				</configuration>
+			</plugin>
+
+		</plugins>
+
+	</build>
+	<dependencies>
+		<dependency>
+			<groupId>meru.platform.repository</groupId>
+			<artifactId>Repository-Metadata</artifactId>
+			<version>1.0-SNAPSHOT</version>
+			<scope>compile</scope>
+		</dependency>
+        <dependency>
+                <groupId>org.seleniumhq.selenium</groupId>
+                <artifactId>selenium-java</artifactId>
+                <version>2.46.0</version>
+                <scope>compile</scope>
+            </dependency>
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>4.11</version>
+                <scope>compile</scope>
+        </dependency>
+		<dependency>
+			<groupId>sun.xson</groupId>
+			<artifactId>xson</artifactId>
+			<version>1.0</version>
+			<scope>system</scope>
+			<systemPath>${java.home}/j2ee-lib/xsom.jar</systemPath>
+		</dependency>
+	</dependencies>
+</project>

@@ -1,0 +1,21 @@
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="app.erp.finance" xmlns="app.erp.finance" xmlns:r="app.domain" xmlns:l="app.domain.location" xmlns:an="app.entity.annotation">
+
+	<xsd:import schemaLocation="$APPLICATION_HOME/module/ApplicationModule-Core/metadata/app-module/Core/Business Objects/app/domain/AppEntity.xsd" namespace="app.domain" />
+
+	<xsd:complexType name="PaymentMethod">
+		<xsd:complexContent>
+			<xsd:extension base="r:AppEntity">
+				<xsd:sequence>
+				    <xsd:element name="name" type="xsd:string"/>
+				    <xsd:element name="uid" type="xsd:string"/>
+				</xsd:sequence>
+				<xsd:attribute name="uniqueKey" default="name"/>
+				<xsd:attribute name="nameable"/>
+			</xsd:extension>
+		</xsd:complexContent>
+
+	</xsd:complexType>
+	
+	<xsd:element name="paymentMethod" type="PaymentMethod"/>
+
+</xsd:schema>

@@ -1,0 +1,24 @@
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="app.erp" xmlns="app.erp" xmlns:r="app.domain" xmlns:l="app.domain.location" xmlns:an="app.entity.annotation">
+
+	<xsd:import schemaLocation="$APPLICATION_HOME/module/ApplicationModule-Core/metadata/app-module/Core/Business Objects/app/domain/AppEntity.xsd" namespace="app.domain" />
+
+	<xsd:complexType name="Enterprise">
+		<xsd:complexContent>
+			<xsd:extension base="r:AppEntity">
+				<xsd:sequence>
+				    <xsd:element name="name" type="xsd:string"/>
+				    <xsd:element name="email" type="xsd:string"/>
+				    <xsd:element name="phone" type="xsd:string"/>
+				    <xsd:element name="fax" type="xsd:string" minOccurs="0"/>
+				    <xsd:element name="tin" type="xsd:string"/>
+				</xsd:sequence>
+				<xsd:attribute name="uniqueKey" default="name"/>
+				<xsd:attribute name="nameable"/>
+			</xsd:extension>
+		</xsd:complexContent>
+
+	</xsd:complexType>
+	
+	<xsd:element name="enterprise" type="Enterprise"/>
+
+</xsd:schema>

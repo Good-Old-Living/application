@@ -1,0 +1,23 @@
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="app.domain" xmlns="app.domain" xmlns:domain="app.entity.annotation">
+
+
+	<xsd:simpleType name="EntityId" >
+		<xsd:restriction base="xsd:long">
+		</xsd:restriction>
+	</xsd:simpleType>
+
+
+	<xsd:element name="id" type="xsd:long" domain:sequence="Identity" />
+	<xsd:element name="entityId" type="xsd:long" />
+
+
+	<xsd:element name="appId" type="xsd:long" />
+	<xsd:element name="clientId" type="xsd:long" />
+
+	<xsd:element name="ownerId" type="xsd:long" />
+	<xsd:element name="ownerType" type="xsd:string" />
+
+	<xsd:element name="intId" type="xsd:int" domain:sequence="Identity" />
+	<xsd:element name="isActive" type="xsd:boolean" />
+</xsd:schema>

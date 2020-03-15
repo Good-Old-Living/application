@@ -1,0 +1,2 @@
+include ':module:ApplicationModule-Core'
+project(':module:ApplicationModule-Core').projectDir = new File(settingsDir, 'ApplicationModule-Core')

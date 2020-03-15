@@ -1,0 +1,20 @@
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="app.domain" xmlns="app.domain">
+
+	<xsd:include schemaLocation="AppEntity.xsd" />
+
+	<xsd:complexType name="PropertyGroup">
+		<xsd:complexContent>
+			<xsd:extension base="AppEntity">
+				<xsd:sequence>
+					<xsd:element name="name" type="xsd:string" />
+					<xsd:element name="value" type="xsd:string" />
+				</xsd:sequence>
+				<xsd:attribute name="uniqueKey" default="name,value" />
+				<xsd:attribute name="nameable" />
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+
+	<xsd:element name="propertyGroup" type="PropertyGroup" />
+
+</xsd:schema>

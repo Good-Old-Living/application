@@ -1,0 +1,14 @@
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="app.erp.mdm.catalog" xmlns="app.erp.mdm.catalog" xmlns:i="app.domain.image" xmlns:an="app.entity.annotation">
+
+    <xsd:import schemaLocation="$APPLICATION_HOME/module/ApplicationModule-BusinessApp/metadata/app-module/Core/Business Objects/app/domain/image/EntityImage.xsd" namespace="app.domain.image" />
+
+    <xsd:complexType name="ProductImage" an:transient="true">
+        <xsd:complexContent>
+            <xsd:extension base="i:EntityImage">
+                <xsd:sequence>
+                </xsd:sequence>
+            </xsd:extension>
+        </xsd:complexContent>
+
+    </xsd:complexType>
+</xsd:schema>

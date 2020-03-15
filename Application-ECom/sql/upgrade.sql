@@ -1,0 +1,1 @@
+alter table mdm_product add column delivery_instructions varchar(100);

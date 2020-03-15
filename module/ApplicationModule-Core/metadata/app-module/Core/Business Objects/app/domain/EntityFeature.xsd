@@ -1,0 +1,29 @@
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="app.domain" xmlns="app.domain" xmlns:an="app.entity.annotation">
+
+	<xsd:include schemaLocation="AppEntity.xsd" />
+	<xsd:include schemaLocation="PropertyGroup.xsd" />
+	<xsd:include schemaLocation="EntityFeatureValue.xsd" />
+
+
+	<xsd:complexType name="EntityFeature">
+		<xsd:complexContent>
+			<xsd:extension base="AppEntity">
+				<xsd:sequence>
+					<xsd:element name="name" type="xsd:string" />
+					<xsd:element ref="type" />
+					<!--  Ids of ProductCategory, Product, ProductLineItem, etc  -->
+					<xsd:element name="ownerId" type="xsd:long" />
+					<!--  ProductCategory, Product, ProductLineItem, etc  -->
+					<xsd:element name="ownerType" type="xsd:string" />
+					<xsd:element name="sortOrder" type="xsd:int" default="0" minOccurs="0"/>
+					<xsd:element name="values" type="EntityFeatureValue" an:mappedBy="entityFeatureId" minOccurs="0" maxOccurs="unbounded" />
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+
+	<xsd:element name="type" type="PropertyGroup" />
+
+	<xsd:element name="entityFeature" type="EntityFeature" />
+
+</xsd:schema>

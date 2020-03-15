@@ -1,0 +1,18 @@
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="app.domain" xmlns="app.domain">
+    
+    <xsd:include schemaLocation="AppEntity.xsd"/>
+    
+	<xsd:complexType name="AuditableEntity" abstract="true">
+		<xsd:complexContent>
+			<xsd:extension base="AppEntity">
+				<xsd:sequence>
+					<xsd:element name="createdBy" type="xsd:string"/>
+					<xsd:element name="createdTime" type="xsd:dateTime"/>
+					<xsd:element name="modifiedBy" type="xsd:string" minOccurs="0"/>
+					<xsd:element name="modifiedTime" type="xsd:dateTime" minOccurs="0"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+
+</xsd:schema>

@@ -1,0 +1,18 @@
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="app.erp.mdm.catalog" xmlns="app.erp.mdm.catalog"
+	xmlns:c="app.domain" xmlns:an="app.entity.annotation">
+
+	<xsd:import
+		schemaLocation="$APPLICATION_HOME/module/ApplicationModule-Core/metadata/app-module/Core/Business Objects/app/domain/BOCommon.xsd"
+		namespace="app.domain" />
+
+	<xsd:complexType name="VegetablePriceList"
+		an:transient="true">
+		<xsd:sequence>
+			<xsd:element name="id" type="xsd:string" />
+			<xsd:element name="supplier" type="xsd:string" />
+			<xsd:element name="csvFile" type="xsd:string" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+</xsd:schema>

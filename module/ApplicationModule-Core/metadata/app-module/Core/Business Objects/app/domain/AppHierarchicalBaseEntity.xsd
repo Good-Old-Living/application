@@ -1,0 +1,29 @@
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="app.domain" xmlns="app.domain">
+
+	<xsd:include schemaLocation="AppEntity.xsd" />
+
+	<xsd:complexType name="AppHierarchicalBaseEntity"
+		abstract="true">
+		<xsd:complexContent>
+			<xsd:extension base="AppEntity">
+				<xsd:sequence>
+					<xsd:element name="name" type="xsd:string" />
+					<xsd:element name="qualifiedName" type="xsd:string"
+						minOccurs="0" />
+					<xsd:element name="category" type="xsd:string"
+						minOccurs="0" />
+					<xsd:element name="parentId" minOccurs="0" type="xsd:long"/>
+
+					<xsd:element name="type" type="xsd:string" />
+					<!-- indicates the module, folder, file, etc. -->
+					<xsd:element name="kind" type="xsd:string" />
+					<xsd:element name="action" type="xsd:string" minOccurs="0" />
+				</xsd:sequence>
+				<xsd:attribute name="hierarchical" />
+				<xsd:attribute name="uniqueKey" default="parentId,name" />
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+
+</xsd:schema>

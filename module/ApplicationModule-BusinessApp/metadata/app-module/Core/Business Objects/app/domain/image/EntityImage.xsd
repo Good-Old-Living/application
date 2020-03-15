@@ -1,0 +1,21 @@
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="app.domain.image" xmlns="app.domain.image" xmlns:c="app.domain"
+	xmlns:an="app.entity.annotation">
+
+	<xsd:import
+		schemaLocation="$APPLICATION_HOME/module/ApplicationModule-Core/metadata/app-module/Core/Business Objects/app/domain/BOCommon.xsd"
+		namespace="app.domain" />
+
+	<xsd:complexType name="EntityImage" abstract="true"
+		an:transient="true">
+		<xsd:sequence>
+			<xsd:element name="id" type="xsd:string" />
+			<xsd:element name="relativePath" type="xsd:string" />
+			<xsd:element name="entityId" type="c:EntityId" />
+			<xsd:element name="image" type="xsd:string" />
+			<xsd:element name="size" type="xsd:string" />
+			<xsd:element name="isDefault" type="xsd:boolean" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+</xsd:schema>

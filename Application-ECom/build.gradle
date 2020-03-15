@@ -1,0 +1,76 @@
+apply plugin: 'java'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+ext.j2ee_lib = '/scratch/java/jdk1.8.0_101/jre/j2ee-lib'
+ext.platform_jar = '/scratch/dev/git-repo/app-platform/build/libs/app-platform-1.0.jar'
+ext.app_home='/scratch/app/apache-tomcat-8.5.4/webapps/'
+
+allprojects {
+    apply plugin: 'java'
+    apply plugin: 'eclipse'
+    group = 'pampan.application'
+    version = '1.0'
+    
+    repositories {
+          mavenCentral()
+    }
+    
+    dependencies {
+      compile files(project.property("platform_jar"))
+      compile files(project.property("j2ee_lib")+'/javax.persistence-2.1.0.jar')
+      compile files(project.property("j2ee_lib")+'/servlet-api.jar')
+      compile files("/scratch/dev/thirdparty/apache/poi-4.1.0/poi-4.1.0.jar")
+	compile files("/scratch/dev/thirdparty/apache/poi-4.1.0/poi-ooxml-4.1.0.jar")
+	compile files("/scratch/dev/thirdparty/apache/poi-4.1.0/ooxml-lib/xmlbeans-3.1.0.jar")
+	compile files("/scratch/dev/thirdparty/apache/poi-4.1.0/lib/commons-collections4-4.3.jar")
+	compile files("/scratch/dev/thirdparty/apache/poi-4.1.0/lib/commons-compress-1.18.jar")
+	compile files("/scratch/dev/thirdparty/apache/poi-4.1.0/poi-ooxml-schemas-4.1.0.jar")
+      testCompile 'junit:junit:4.12'
+    }
+    
+    sourceSets {
+        main {
+            java {
+                srcDirs = ['src/main/java']
+                srcDir '_generated/src'         
+            }
+        }
+}
+}
+
+dependencies {
+        compile project(':module:ApplicationModule-Core')
+        compile project(':module:ApplicationModule-BusinessApp')
+
+    }
+
+
+def alljar = task("alljar", type: Jar) {
+  baseName = "Application-ECom"
+  dependsOn "build"
+  from sourceSets.main.output.asFileTree.matching {
+           include '**/*.class'
+    }
+}
+  subprojects {
+  //you can filter and only apply the configuration to the specific projects
+  project.plugins.withId("java") {
+       alljar.from sourceSets.main.output.asFileTree.matching {
+         include '**/*.class'
+    }
+  }
+}
+
+eclipse {
+  project {
+  
+     linkedResource name: 'web-ns', type: '2', location: rootProject.property("app_home")+'/ns'
+  }
+}
+

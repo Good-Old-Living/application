@@ -1,0 +1,23 @@
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="app.ecom.shopping.cart" xmlns="app.ecom.shopping.cart" xmlns:r="app.domain" xmlns:b="app.erp.mdm.bp" xmlns:an="app.entity.annotation">
+
+    <xsd:import schemaLocation="$APPLICATION_HOME/module/ApplicationModule-Core/metadata/app-module/Core/Business Objects/app/domain/AppEntity.xsd" namespace="app.domain" />
+    <xsd:import schemaLocation="$APPLICATION_HOME/Application-ECom/metadata/app-module/Master Data Management/Business Objects/app/erp/mdm/bp/Customer.xsd" namespace="app.erp.mdm.bp" />
+
+    <xsd:include schemaLocation="ShoppingCartLineItem.xsd"/>
+    
+	<xsd:complexType name="ShoppingCart">
+		<xsd:complexContent>
+			<xsd:extension base="r:AppEntity">
+				<xsd:sequence>
+				    <xsd:element ref="b:customer" minOccurs="0"/>
+				    <xsd:element name="sessionId" type="xsd:string"/>
+				    <xsd:element name="createdTime" type="xsd:dateTime"/>
+				    <xsd:element name="items" type="ShoppingCartLineItem" an:mappedBy="shoppingCartId" minOccurs="0" maxOccurs="unbounded" />
+				</xsd:sequence>
+				<xsd:attribute name="uniqueKey" default="customer"/>
+			</xsd:extension>
+		</xsd:complexContent>
+
+	</xsd:complexType>
+
+</xsd:schema>

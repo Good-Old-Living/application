@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<projectDescription>
+	<name>Application-ECom</name>
+	<comment></comment>
+	<projects>
+	</projects>
+	<buildSpec>
+		<buildCommand>
+			<name>org.eclipse.jdt.core.javabuilder</name>
+			<arguments>
+			</arguments>
+		</buildCommand>
+	</buildSpec>
+	<natures>
+		<nature>org.eclipse.jdt.core.javanature</nature>
+	</natures>
+	<linkedResources>
+		<link>
+			<name>backup</name>
+			<type>2</type>
+			<location>/scratch/dev/backup</location>
+		</link>
+		<link>
+			<name>web-paaril</name>
+			<type>2</type>
+			<location>/scratch/app/apache-tomcat-8.5.43/webapps/ROOT</location>
+		</link>
+	</linkedResources>
+</projectDescription>

@@ -1,0 +1,12 @@
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="app.domain" xmlns="app.domain">
+    
+    <xsd:include schemaLocation="BOCommon.xsd"/>
+    
+	<xsd:complexType name="AppEntity" abstract="true">
+		<xsd:sequence>
+			<xsd:element ref="id"/>
+		</xsd:sequence>
+		<!-- <xsd:attribute name="uniqueKey" default="appId,enterpriseId,orgId" /> -->
+	</xsd:complexType>
+    
+</xsd:schema>

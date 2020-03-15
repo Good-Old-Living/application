@@ -1,0 +1,21 @@
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="app.domain.location" xmlns="app.domain.location" xmlns:r="app.domain">
+
+	<xsd:import schemaLocation="$APPLICATION_HOME/module/ApplicationModule-Core/metadata/app-module/Core/Business Objects/app/domain/AppEntity.xsd" namespace="app.domain" />
+	<xsd:import schemaLocation="Address.xsd" namespace="app.domain.location" />
+
+	<xsd:complexType name="HousingComplex">
+		<xsd:complexContent>
+			<xsd:extension base="r:AppEntity">
+				<xsd:sequence>
+				    <xsd:element name="name" type="xsd:string" />
+					<xsd:element ref="address"/>
+				</xsd:sequence>
+				<xsd:attribute name="uniqueKey" default="name, address" />
+			</xsd:extension>
+		</xsd:complexContent>
+
+	</xsd:complexType>
+    
+    <xsd:element name="housingComplex" type="HousingComplex"/>
+	
+</xsd:schema>

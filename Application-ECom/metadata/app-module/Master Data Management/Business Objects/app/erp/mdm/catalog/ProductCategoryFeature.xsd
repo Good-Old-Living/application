@@ -1,0 +1,31 @@
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="app.erp.mdm.catalog" xmlns="app.erp.mdm.catalog" xmlns:r="app.domain">
+
+<xsd:import schemaLocation="$APPLICATION_HOME/module/ApplicationModule-Core/metadata/app-module/Core/Business Objects/app/domain/AppEntity.xsd" namespace="app.domain" />
+	<xsd:import schemaLocation="$APPLICATION_HOME/module/ApplicationModule-Core/metadata/app-module/Core/Business Objects/app/domain/EntityFeature.xsd" namespace="app.domain" />
+
+	<xsd:complexType name="ProductCategoryFeature">
+		<xsd:complexContent>
+			<xsd:extension base="r:AppEntity">
+				<xsd:sequence>
+					<xsd:element name="categoryId" type="r:EntityId" />
+					<xsd:element name="name" type="xsd:string" />
+					<xsd:element ref="type" />
+					<!--  Comma separated attributes -->
+					<xsd:element name="attributes" minOccurs="0">
+						<xsd:simpleType>
+							<xsd:restriction base="xsd:string">
+								<xsd:maxLength value="2000" />
+							</xsd:restriction>
+						</xsd:simpleType>
+					</xsd:element>
+					<xsd:element name="sortOrder" type="xsd:int" default="0" />
+				</xsd:sequence>
+				<xsd:attribute name="uniqueKey" default="name" />
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+
+	<xsd:element name="type" type="r:PropertyGroup" />
+	<xsd:element name="productCategoryFeature" type="ProductCategoryFeature" />
+
+</xsd:schema>

@@ -1,0 +1,12 @@
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="app.domain" xmlns="app.domain">
+    
+    <xsd:include schemaLocation="AppHierarchicalBaseEntity.xsd"/>
+    
+	<xsd:complexType name="AppHierarchicalEntity">
+		<xsd:complexContent>
+			<xsd:extension base="AppHierarchicalBaseEntity">
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+
+</xsd:schema>

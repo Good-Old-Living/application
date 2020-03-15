@@ -1,0 +1,68 @@
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="app.erp.mdm.catalog" xmlns="app.erp.mdm.catalog" xmlns:r="app.domain" xmlns:an="app.entity.annotation">
+
+    <xsd:import schemaLocation="$APPLICATION_HOME/module/ApplicationModule-Core/metadata/app-module/Core/Business Objects/app/domain/AppEntity.xsd" namespace="app.domain" />
+    <xsd:import schemaLocation="$APPLICATION_HOME/module/ApplicationModule-Core/metadata/app-module/Core/Business Objects/app/domain/PropertyGroup.xsd" namespace="app.domain" />
+
+    <xsd:include schemaLocation="Product.xsd" />
+
+    <xsd:complexType name="ProductLineItem">
+        <xsd:complexContent>
+            <xsd:extension base="r:AppEntity">
+                <xsd:sequence>
+                    <xsd:element name="uid" type="xsd:string" minOccurs="0"/>
+                    <xsd:element ref="product" />
+                    <xsd:element name="code">
+                        <xsd:simpleType>
+                            <xsd:restriction base="xsd:string">
+                                <xsd:maxLength value="10" />
+                            </xsd:restriction>
+                        </xsd:simpleType>
+                    </xsd:element>
+                    <xsd:element name="searchTerms">
+                        <xsd:simpleType>
+                            <xsd:restriction base="xsd:string">
+                                <xsd:maxLength value="5000" />
+                            </xsd:restriction>
+                        </xsd:simpleType>
+                    </xsd:element>
+                    <xsd:element name="description" minOccurs="0">
+                        <xsd:simpleType>
+                            <xsd:restriction base="xsd:string">
+                                <xsd:maxLength value="5000" />
+                            </xsd:restriction>
+                        </xsd:simpleType>
+                    </xsd:element>
+                    <!-- regular, organic  -->
+                    <xsd:element name="category" type="xsd:string" />
+                    <xsd:element name="quantity" type="xsd:int" />
+                    <xsd:element name="netQuantity" type="xsd:int" minOccurs="0"/>
+                    
+                    <!-- kgs, ltr, etc -->
+                    <xsd:element ref="unitOfMeasure" />
+                    <xsd:element ref="packageType" minOccurs="0" />
+                    <xsd:element name="mrp" type="xsd:float" />
+                    <xsd:element name="price" type="xsd:float" />
+                    <xsd:element name="savings" type="xsd:float" minOccurs="0" />
+                    <xsd:element name="discount" type="xsd:float" minOccurs="0" />
+                    <xsd:element ref="discountType" minOccurs="0" />
+                    <!-- indicates if this item to be shown in the thumbnail list -->
+                    <xsd:element name="isDefault" type="xsd:boolean" minOccurs="0" />
+                    <xsd:element name="sortOrder" type="xsd:int" minOccurs="0" />
+                    <xsd:element name="isActive" type="xsd:boolean" default="true" />
+                    <xsd:element name="inStock" type="xsd:boolean" default="true" />
+                    <xsd:element name="isOffer" type="xsd:boolean" default="false" minOccurs="0" />
+                    <xsd:element name="tags" type="xsd:string" minOccurs="0" />
+                    <xsd:element name="tnImage" type="xsd:string" minOccurs="0" />
+                </xsd:sequence>
+                <xsd:attribute name="uniqueKey" default="code | product,quantity,unitOfMeasure,packageType" />
+            </xsd:extension>
+        </xsd:complexContent>
+
+    </xsd:complexType>
+
+    <xsd:element name="productLineItem" type="ProductLineItem"/>
+    <xsd:element name="unitOfMeasure" type="r:PropertyGroup"/>
+    <xsd:element name="packageType" type="r:PropertyGroup"/>
+    <xsd:element name="discountType" type="r:PropertyGroup"/>
+
+</xsd:schema>

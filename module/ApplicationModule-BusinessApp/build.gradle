@@ -1,0 +1,78 @@
+apply plugin: 'java'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+ext.j2ee_lib = '/scratch/java/jdk1.8.0_101/jre/j2ee-lib'
+ext.platform_jar = '/scratch/dev/product/platform/build/libs/platform-1.0.jar'
+ext.quartz_jar = '/scratch/dev/git-repo/app-platform/infra/Infra-Scheduler/lib/quartz-2.2.3.jar'
+ext.app_home='/scratch/app/apache-tomcat-8.5.4/webapps/'
+
+allprojects {
+    apply plugin: 'java'
+    apply plugin: 'eclipse'
+    group = 'pampan.application'
+    version = '1.0'
+    
+    repositories {
+          mavenCentral()
+    }
+    
+    dependencies {
+      compile files(project.property("platform_jar"))
+      compile files(project.property("j2ee_lib")+'/javax.persistence-2.1.0.jar')
+      compile files(project.property("j2ee_lib")+'/servlet-api.jar')
+      testCompile 'junit:junit:4.12'
+    }
+    
+    sourceSets {
+        main {
+            java {
+                srcDirs = ['src/main/java']
+                srcDir '_generated/src'         
+            }
+        }
+}
+}
+
+
+def alljar = task("alljar", type: Jar) {
+  baseName = "ApplicationModule-BusinessApp"
+  dependsOn "build"
+  from sourceSets.main.output.asFileTree.matching {
+           include '**/*.class'
+    }
+  
+}
+    
+    subprojects {
+  //you can filter and only apply the configuration to the specific projects
+  project.plugins.withId("java") {
+       alljar.from sourceSets.main.output.asFileTree.matching {
+         include '**/*.class'
+    }
+  }
+}
+
+  
+
+dependencies {
+        compile project(':module:ApplicationModule-Core')
+        compile files(project.property("quartz_jar"))
+
+}
+
+project(':module:ApplicationModule-Core') {
+    dependencies {
+        compile files(project.property("platform_jar"))
+        compile files(project.property("j2ee_lib")+'/comm.jar')
+        compile files(project.property("j2ee_lib")+'/javax.persistence-2.1.0.jar')
+        compile files(project.property("j2ee_lib")+'/jta-1.1.jar')
+        compile files(project.property("j2ee_lib")+'/mail.jar')
+        compile files(project.property("j2ee_lib")+'/servlet-api.jar')
+    }
+}

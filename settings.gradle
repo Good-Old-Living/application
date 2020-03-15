@@ -1,0 +1,6 @@
+include ':module:ApplicationModule-Core'
+include ':module:ApplicationModule-BusinessApp'
+include 'Application-Security'
+include 'Application-Designer'
+include 'Application-ECom'
+

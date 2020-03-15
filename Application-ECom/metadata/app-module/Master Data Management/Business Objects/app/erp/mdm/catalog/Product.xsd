@@ -1,0 +1,65 @@
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    targetNamespace="app.erp.mdm.catalog" xmlns="app.erp.mdm.catalog" xmlns:r="app.domain"
+    xmlns:f="app.erp.finance">
+
+    <xsd:import
+        schemaLocation="$APPLICATION_HOME/module/ApplicationModule-Core/metadata/app-module/Core/Business Objects/app/domain/AppEntity.xsd"
+        namespace="app.domain" />
+    <xsd:import
+        schemaLocation="$APPLICATION_HOME/Application-ECom/metadata/app-module/Finance/Business Objects/app/erp/finance/Tax.xsd"
+        namespace="app.erp.finance" />
+    <xsd:import
+        schemaLocation="$APPLICATION_HOME/module/ApplicationModule-Core/metadata/app-module/Core/Business Objects/app/domain/PropertyGroup.xsd"
+        namespace="app.domain" />
+
+    <xsd:include schemaLocation="ProductCategory.xsd" />
+ 
+    <xsd:complexType name="Product">
+        <xsd:complexContent>
+            <xsd:extension base="r:AppEntity">
+                <xsd:sequence>
+                    <xsd:element name="name" type="xsd:string" />
+                    <xsd:element name="uid" type="xsd:string" minOccurs="0" />
+                    <xsd:element name="brand" type="xsd:string" minOccurs="0" />
+                    <xsd:element ref="type" minOccurs="0" />
+                    <xsd:element ref="productCategory" />
+                    <xsd:element name="shortDescription" type="xsd:string" minOccurs="0" />
+                    <xsd:element name="description" minOccurs="0">
+                        <xsd:simpleType>
+                            <xsd:restriction base="xsd:string">
+                                <xsd:maxLength value="10000" />
+                            </xsd:restriction>
+                        </xsd:simpleType>
+                    </xsd:element>
+                    <xsd:element name="rating" type="xsd:int" minOccurs="0" />
+                    <xsd:element name="popularity" type="xsd:float" minOccurs="0" />
+                    <xsd:element name="isActive" type="xsd:boolean" default="true" />
+                    <xsd:element name="tags" type="xsd:string" minOccurs="0" />
+                    <xsd:element name="tnImage" type="xsd:string" minOccurs="0">
+                        <xsd:simpleType>
+                            <xsd:restriction base="xsd:string">
+                                <xsd:maxLength value="200" />
+                            </xsd:restriction>
+                        </xsd:simpleType>
+                    </xsd:element>
+                    <xsd:element ref="f:tax" minOccurs="0" />
+                    <xsd:element name="subscribable" type="xsd:boolean" minOccurs="0" />
+                    <xsd:element name="orderable" type="xsd:boolean" minOccurs="0" />
+                    <xsd:element name="deliveryInstructions" type="xsd:string" minOccurs="0" >
+                        <xsd:simpleType>
+                            <xsd:restriction base="xsd:string">
+                                <xsd:maxLength value="250" />
+                            </xsd:restriction>
+                        </xsd:simpleType>
+                    </xsd:element>
+                </xsd:sequence>
+                <xsd:attribute name="uniqueKey" default="productCategory,name,brand" />
+            </xsd:extension>
+        </xsd:complexContent>
+
+    </xsd:complexType>
+
+    <xsd:element name="type" type="r:PropertyGroup" />
+
+    <xsd:element name="product" type="Product" />
+</xsd:schema>

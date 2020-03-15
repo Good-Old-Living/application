@@ -1,0 +1,27 @@
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="app.domain.security" xmlns="app.domain.security" xmlns:r="app.domain" xmlns:domain="app.entity.annotation">
+
+	<xsd:import schemaLocation="$APPLICATION_HOME/module/ApplicationModule-Core/metadata/app-module/Core/Business Objects/app/domain/BOCommon.xsd" namespace="app.domain" />
+	<xsd:include schemaLocation="Role.xsd" />
+
+	<xsd:complexType name="NewUser">
+		<xsd:complexContent>
+			<xsd:extension base="r:AppEntity">
+				<xsd:sequence>
+					<!-- <xsd:element name="name" type="xsd:string" /> -->
+					<xsd:element name="mobile" type="xsd:string" />
+<!-- 					<xsd:element name="password" type="xsd:string" />
+					<xsd:element name="cpassword" type="xsd:string" domain:transient="true" />
+					
+ -->				<xsd:element name="otp" type="xsd:string" domain:transient="true" />	
+                    <xsd:element name="mobileAccessToken" type="xsd:string"/>
+<!-- 					<xsd:element ref="primaryRole" />
+ 					<xsd:element name="registeredOn" type="xsd:dateTime" /> -->
+				</xsd:sequence>
+				<xsd:attribute name="uniqueKey" default="mobile" />
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+
+	<xsd:element name="primaryRole" type="Role" />
+
+</xsd:schema>

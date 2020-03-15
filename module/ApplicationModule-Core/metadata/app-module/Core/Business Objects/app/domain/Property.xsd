@@ -1,0 +1,29 @@
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="app.domain" xmlns="app.domain">
+
+	<xsd:include schemaLocation="AppEntity.xsd" />
+
+	<xsd:complexType name="Property">
+		<xsd:complexContent>
+			<xsd:extension base="AppEntity">
+				<xsd:sequence>
+					<xsd:element name="name" type="xsd:string" />
+					<!--  Data type of the property -->
+					<xsd:element name="type" type="xsd:string" />
+					<xsd:element name="ownerId" type="xsd:long" minOccurs="0" />
+					<!--  Further categorization of the property such as admin, sys, etc -->
+					<xsd:element name="category" type="xsd:string" minOccurs="0" />
+					<xsd:element name="prefix" type="xsd:string" minOccurs="0" />
+					<xsd:element name="value" type="xsd:string">
+						<xsd:simpleType>
+							<xsd:restriction base="xsd:string">
+								<xsd:maxLength value="2000" />
+							</xsd:restriction>
+						</xsd:simpleType>
+					</xsd:element>
+				</xsd:sequence>
+				<xsd:attribute name="uniqueKey" default="ownerId,category,prefix, name" />
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+
+</xsd:schema>

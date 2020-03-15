@@ -1,0 +1,25 @@
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="app.domain.schedule"
+    xmlns="app.domain.schedule" xmlns:r="app.domain">
+    <xsd:import schemaLocation="../BOCommon.xsd" namespace="app.domain" />
+    <xsd:import schemaLocation="../AppEntity.xsd" namespace="app.domain" />
+    <xsd:include schemaLocation="ScheduleTrigger.xsd" />
+
+    <xsd:complexType name="Schedule">
+        <xsd:complexContent>
+            <xsd:extension base="r:AppEntity">
+                <xsd:sequence>
+                    <xsd:element name="name" type="xsd:string" />
+                    <xsd:element name="actionClass" type="xsd:string" />
+                    <!-- hourly, daily, weekly, monthly, etc -->
+                    <xsd:element name="type" type="xsd:string" />
+                    <xsd:element name="startTime" type="xsd:dateTime" minOccurs="0" />
+                    <xsd:element name="endTime" type="xsd:dateTime" minOccurs="0" />
+                    <xsd:element name="triggerOnStart" type="xsd:boolean" minOccurs="0" />
+                    <xsd:element name="scheduleTrigger" type="ScheduleTrigger" />
+                </xsd:sequence>
+                <xsd:attribute name="uniqueKey" default="name" />
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+
+</xsd:schema>

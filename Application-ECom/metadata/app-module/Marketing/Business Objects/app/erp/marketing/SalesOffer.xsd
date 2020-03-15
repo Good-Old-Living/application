@@ -1,0 +1,37 @@
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="app.erp.marketing" xmlns="app.erp.marketing" xmlns:r="app.domain" xmlns:c="app.erp.mdm.catalog"  xmlns:an="app.entity.annotation">
+
+	<xsd:import schemaLocation="$APPLICATION_HOME/module/ApplicationModule-Core/metadata/app-module/Core/Business Objects/app/domain/AppEntity.xsd" namespace="app.domain" />
+	<xsd:import schemaLocation="$APPLICATION_HOME/module/ApplicationModule-Core/metadata/app-module/Core/Business Objects/app/domain/PropertyGroup.xsd" namespace="app.domain" />
+	
+	<xsd:import schemaLocation="../../../../../Master Data Management/Business Objects/app/erp/mdm/catalog/ProductCategory.xsd" namespace="app.erp.mdm.catalog" />
+
+	<xsd:include schemaLocation="SalesOrderComplimentaryItem.xsd" />
+
+	<xsd:complexType name="SalesOffer">
+		<xsd:complexContent>
+			<xsd:extension base="r:AppEntity">
+				<xsd:sequence>
+					<xsd:element name="title" type="xsd:string" />
+					<xsd:element name="startTime" type="xsd:date" />
+					<xsd:element name="endTime" type="xsd:date" />
+					<xsd:element ref="c:productCategory" minOccurs="0" />
+					<xsd:element name="minimumPurchase" type="xsd:long" minOccurs="0" />
+					<!-- comma separated Customer Type ids -->
+					<xsd:element name="customerTypes" type="xsd:string" minOccurs="0" />
+					<xsd:element name="discount" type="xsd:float" />
+					<xsd:element ref="discountType" />
+					<xsd:element name="sortOrder" type="xsd:integer" minOccurs="0" />
+					<xsd:element name="isComplimentaryOr" type="xsd:boolean" minOccurs="0" />
+					<xsd:element name="complimentaryItems" type="SalesOrderComplimentaryItem" an:mappedBy="salesOfferId" minOccurs="0" maxOccurs="unbounded" />
+				</xsd:sequence>
+				<xsd:attribute name="uniqueKey" default="title" />
+			</xsd:extension>
+		</xsd:complexContent>
+
+	</xsd:complexType>
+
+	<xsd:element name="discountType" type="r:PropertyGroup" />
+	
+	<xsd:element name="salesOffer" type="SalesOffer" />
+
+</xsd:schema>

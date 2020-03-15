@@ -1,0 +1,20 @@
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="app.domain.organizer"
+	targetNamespace="app.domain.comm" xmlns:domain="app.entity.comm" version="1.0">
+
+
+	<xsd:complexType name="Alert">
+
+		<xsd:sequence>
+			<xsd:element name="id" type="xsd:long" domain:sequence="Identity"/>
+			<xsd:element name="sender" type="xsd:string" />
+			<xsd:element name="receiver" type="xsd:string" />
+			<xsd:element name="category" type="xsd:string" />
+			<xsd:element name="type" type="xsd:string" />
+			<xsd:element name="description" type="xsd:string" />
+			<xsd:element name="target" type="xsd:string" />
+			<xsd:element name="receivedOn" type="xsd:dateTime" />		
+		</xsd:sequence>
+		
+	</xsd:complexType>
+
+</xsd:schema>

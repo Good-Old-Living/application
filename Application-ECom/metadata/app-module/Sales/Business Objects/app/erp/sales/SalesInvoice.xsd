@@ -1,0 +1,21 @@
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="app.erp.sales" xmlns="app.erp.sales" xmlns:r="app.domain">
+
+	<xsd:import schemaLocation="$APPLICATION_HOME/module/ApplicationModule-Core/metadata/app-module/Core/Business Objects/app/domain/AppEntity.xsd" namespace="app.domain" />
+
+	<xsd:include schemaLocation="SalesOrder.xsd" />
+
+	<xsd:complexType name="SalesInvoice">
+		<xsd:complexContent>
+			<xsd:extension base="r:AppEntity">
+				<xsd:sequence>
+					<xsd:element name="number" type="xsd:string" />
+					<xsd:element ref="salesOrder" />
+					<xsd:element name="notes" type="xsd:string" minOccurs="0" />
+				</xsd:sequence>
+				<xsd:attribute name="uniqueKey" default="number" />
+			</xsd:extension>
+		</xsd:complexContent>
+
+	</xsd:complexType>
+
+</xsd:schema>

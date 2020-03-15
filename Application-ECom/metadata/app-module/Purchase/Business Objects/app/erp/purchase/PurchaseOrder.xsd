@@ -1,0 +1,29 @@
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="app.erp.purchase" xmlns="app.erp.purchase" xmlns:r="app.domain" xmlns:b="app.erp.mdm.bp" xmlns:f="app.erp.finance">
+
+    <xsd:import schemaLocation="$APPLICATION_HOME/module/ApplicationModule-Core/metadata/app-module/Core/Business Objects/app/domain/AppEntity.xsd" namespace="app.domain" />
+    <xsd:import schemaLocation="$APPLICATION_HOME/module/ApplicationModule-Core/metadata/app-module/Core/Business Objects/app/domain/PropertyGroup.xsd" namespace="app.domain" />
+    <xsd:import schemaLocation="$APPLICATION_HOME/module/ApplicationModule-Core/metadata/app-module/Core/Business Objects/app/domain/AppEntityState.xsd" namespace="app.domain" />
+	<xsd:import schemaLocation="$APPLICATION_HOME/Application-ECom/metadata/app-module/Finance/Business Objects/app/erp/finance/PaymentMethod.xsd" namespace="app.erp.finance" />
+
+	<xsd:import schemaLocation="$APPLICATION_HOME/Application-ECom/metadata/app-module/Master Data Management/Business Objects/app/erp/mdm/bp/BusinessPartner.xsd" namespace="app.erp.mdm.bp" />
+
+	<xsd:complexType name="PurchaseOrder">
+		<xsd:complexContent>
+			<xsd:extension base="r:AppEntity">
+				<xsd:sequence>
+				    <xsd:element name="orderId" type="xsd:string" minOccurs="0"/>
+				    <xsd:element ref="b:businessPartner"/>
+				    <xsd:element name="placedOn" type="xsd:dateTime"/>
+				    <xsd:element ref="state"/>
+				    <xsd:element name="amount" type="xsd:float"/> 
+				</xsd:sequence>
+				<xsd:attribute name="uniqueKey" default="orderId"/>
+			</xsd:extension>
+		</xsd:complexContent>
+
+	</xsd:complexType>
+
+    <xsd:element name="state" type="r:AppEntityState"/>
+    <xsd:element name="purchaseOrder" type="PurchaseOrder"/>
+
+</xsd:schema>

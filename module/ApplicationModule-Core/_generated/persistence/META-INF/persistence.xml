@@ -1,0 +1,29 @@
+<?xml version='1.0'?>
+<persistence xmlns='http://java.sun.com/xml/ns/persistence' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd' version='2.0'>
+    <persistence-unit  name="app-domain" transaction-type="RESOURCE_LOCAL">
+        <provider>org.hibernate.ejb.HibernatePersistence</provider>
+        <jta-data-source>java:comp/env/jdbc/appDB</jta-data-source>
+
+        <class>app.domain.SequenceId</class>
+        <class>app.domain.BusinessApplication</class>
+        <class>app.domain.schedule.ScheduleTrigger</class>
+        <class>app.domain.schedule.Schedule</class>
+        <class>app.domain.AppEntityState</class>
+        <class>app.domain.EntityFeatureValue</class>
+        <class>app.domain.EntityFeature</class>
+        <class>app.domain.account.RegisteredNewUser</class>
+        <class>app.domain.Property</class>
+        <class>app.domain.AppHierarchicalEntity</class>
+        <class>app.domain.PropertyGroup</class>
+        <class>app.domain.AuditableEntity</class>
+        <class>app.domain.AppEntitySequence</class>
+        <class>app.domain.AppEntity</class>
+        <class>app.domain.comm.SendSMS</class>
+        <class>app.domain.comm.Alert</class>
+        <class>app.domain.comm.SendEmail</class>
+        <class>app.domain.comm.Email</class>
+        <class>app.domain.AppHierarchicalBaseEntity</class>
+        <shared-cache-mode>NONE</shared-cache-mode>
+
+    </persistence-unit>
+</persistence>
