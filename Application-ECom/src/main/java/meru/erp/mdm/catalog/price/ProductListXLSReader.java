@@ -12,8 +12,12 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
+import app.erp.mdm.catalog.Product;
 import meru.app.engine.AppEngine;
+import meru.erp.mdm.catalog.FruitVegKey;
 import meru.exception.AppEntityWarning;
+import meru.persistence.AttributeOperator;
+import meru.persistence.EntityQuery;
 import meru.sys.JVM;
 
 public class ProductListXLSReader {
@@ -45,6 +49,16 @@ public class ProductListXLSReader {
       XSSFSheet sheet = workbook.getSheetAt(0);
 
       Iterator<Row> rowIterator = sheet.iterator();
+      
+      
+      EntityQuery<Product> productQuery = appEngine.createQuery(Product.class);
+      productQuery.addQueryParameter("productCategory.id", AttributeOperator.IN, FruitVegKey.asList());
+      List<Product> productList = appEngine.get(productQuery);
+      for (Product product : productList) {
+        product.setIsActiveBoolean(false);
+        appEngine.save(product);
+      }
+      
       while (rowIterator.hasNext()) {
         Row row = rowIterator.next();
         if (row.getRowNum() < maxUsedColumns) {

@@ -58,6 +58,8 @@ public class VeggiesPriceListAction extends EntityAction {
                                        AttributeOperator.IN,
                                        "'kg','pc','bunch'");
 
+    prdLineItemQuery.addOrderBy("product.productCategory.id, product.name");
+    
     List<ProductLineItem> prdLineItemList = appEngine.get(prdLineItemQuery);
 
     for (ProductLineItem productLineItem : prdLineItemList) {
