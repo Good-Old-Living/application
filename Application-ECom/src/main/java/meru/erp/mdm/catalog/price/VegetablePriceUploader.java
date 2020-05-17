@@ -49,9 +49,9 @@ public class VegetablePriceUploader {
       else {
         enableProduct(productLineItem, true);
         //productLineItem.setInStockBoolean(true);
-        double profit = Math.ceil(price * 0.25f);
-        if (profit > 40) {
-          profit = 40;
+        double profit = Math.ceil(price * 0.30f);
+        if (profit > 50) {
+          profit = 50;
         }
 
         price += profit;

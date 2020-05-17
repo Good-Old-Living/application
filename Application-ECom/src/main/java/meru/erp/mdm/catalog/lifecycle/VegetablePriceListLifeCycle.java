@@ -10,7 +10,7 @@ import app.erp.mdm.catalog.VegetablePriceList;
 import meru.application.lifecycle.BusinessAppEntityLifeCycle;
 import meru.erp.mdm.catalog.price.ArivuProductSupplier;
 import meru.erp.mdm.catalog.price.ProductListXLSReader;
-import meru.erp.mdm.catalog.price.SahajaProductSupplier;
+import meru.erp.mdm.catalog.price.ProductSupplierImpl;
 import meru.exception.AppException;
 
 public class VegetablePriceListLifeCycle extends BusinessAppEntityLifeCycle<VegetablePriceList> {
@@ -23,19 +23,28 @@ public class VegetablePriceListLifeCycle extends BusinessAppEntityLifeCycle<Vege
   public void init() {
 
     Properties arivuPrdCodes = new Properties();
-    try (InputStream inputStream = getResourcesStream("arivu-product-codes.txt")){
+    try (InputStream inputStream = getResourcesStream("arivu-product-codes.txt")) {
       arivuPrdCodes.load(inputStream);
     } catch (IOException e) {
       throw new AppException(e, "Unable to load product codes");
     }
+    
+    Properties sahajaPrdCodes = new Properties();
+    try (InputStream inputStream = getResourcesStream("sahaja-product-codes.txt")) {
+      sahajaPrdCodes.load(inputStream);
+    } catch (IOException e) {
+      throw new AppException(e, "Unable to load product codes");
+    }
 
-    sahajaProductListXLSReader = new ProductListXLSReader(3, 4, 4, new SahajaProductSupplier());
+    // sahajaProductListXLSReader = new ProductListXLSReader(3, 4, 4, new SahajaProductSupplier());
+    sahajaProductListXLSReader = new ProductListXLSReader(2, 3, 3,
+        new ProductSupplierImpl(sahajaPrdCodes, "sahaja-product-codes.txt", 1));
     arivuProductListXLSReader = new ProductListXLSReader(2, 3, 3, new ArivuProductSupplier(arivuPrdCodes));
   }
 
   @Override
   public boolean preCreate(VegetablePriceList priceList) {
-
+    init();
     File csvFile = new File(priceList.getCsvFile());
 
     System.out.println("Uploading veggies list " + csvFile.getAbsolutePath() + "  from " + priceList.getSupplier());
