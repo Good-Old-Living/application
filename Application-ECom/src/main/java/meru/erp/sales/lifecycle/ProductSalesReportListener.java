@@ -1,9 +1,9 @@
 package meru.erp.sales.lifecycle;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 import app.erp.mdm.catalog.Product;
 import app.erp.mdm.catalog.ProductLineItem;
@@ -30,13 +30,12 @@ public class ProductSalesReportListener extends BusinessAppEntityLifeCycle<Produ
     salesOrderQuery.addQueryParameter("createdOn",
                                       AttributeOperator.GREATER_THAN_OR_EQUALS,
                                       fromDateTime);
-
+    
     List<SalesOrder> salesOrders = appEngine.get(salesOrderQuery);
-    Map<Long, ProductOrderQuantity> prdQuantityMap = new HashMap<>();
+    Map<String, ProductOrderQuantity> prdQuantityMap = new TreeMap<>();
 
     salesOrders.forEach((salesOrder) -> {
 
-      System.out.println(">>>> " + salesOrder.getCode());
       consolidateProducts(salesOrder,
                           catId,
                           prdQuantityMap);
@@ -46,6 +45,7 @@ public class ProductSalesReportListener extends BusinessAppEntityLifeCycle<Produ
     prdQuantityMap.forEach((productId,
                             quantity) -> {
 
+                            
       ProductSalesReport prdSalesReport = new ProductSalesReport(quantity.product, quantity.code, quantity.toNumber());
       salesReportList.add(prdSalesReport);
     });
@@ -55,9 +55,10 @@ public class ProductSalesReportListener extends BusinessAppEntityLifeCycle<Produ
 
   private void consolidateProducts(SalesOrder salesOrder,
                                    Long poductCategoryId,
-                                   Map<Long, ProductOrderQuantity> prdQuantityMap) {
+                                   Map<String, ProductOrderQuantity> prdQuantityMap) {
 
     EntityQuery<SalesOrderLineItem> salesOrderLIQuery = appEngine.createQuery(SalesOrderLineItem.class);
+    
     salesOrderLIQuery.addQueryParameter("salesOrderId",
                                         salesOrder.getId());
     salesOrderLIQuery.addQueryParameter("productLineItem.product.productCategory.id",
@@ -68,15 +69,15 @@ public class ProductSalesReportListener extends BusinessAppEntityLifeCycle<Produ
 
       ProductLineItem productLineItem = salesOrderLineItem.getProductLineItem();
       Product product = productLineItem.getProduct();
-      Long productId = product.getId();
-      ProductOrderQuantity prdQuantity = prdQuantityMap.get(productId);
-
+      String productName = product.getName();
+      ProductOrderQuantity prdQuantity = prdQuantityMap.get(productName);
+       
       if (prdQuantity == null) {
-        prdQuantity = new ProductOrderQuantity(productLineItem);
-        prdQuantityMap.put(productId,
+        prdQuantity = new ProductOrderQuantity(salesOrderLineItem);
+        prdQuantityMap.put(productName,
                            prdQuantity);
       } else {
-        prdQuantity.setQuantity(productLineItem);
+        prdQuantity.setQuantity(salesOrderLineItem);
       }
 
     });
@@ -88,9 +89,11 @@ public class ProductSalesReportListener extends BusinessAppEntityLifeCycle<Produ
     String code;
     float quantity;
 
-    public ProductOrderQuantity(ProductLineItem productLineItem) {
-      this.product = productLineItem.getProduct();
-
+    public ProductOrderQuantity(SalesOrderLineItem soLineItem) {
+      
+      ProductLineItem productLineItem = soLineItem.getProductLineItem();
+      product = productLineItem.getProduct();
+      
       int index = productLineItem.getCode().indexOf('-');
       if (index == -1) {
         code = productLineItem.getCode();
@@ -98,12 +101,13 @@ public class ProductSalesReportListener extends BusinessAppEntityLifeCycle<Produ
         code = productLineItem.getCode().substring(0,
                                                    index);
       }
-      setQuantity(productLineItem);
+      setQuantity(soLineItem);
     }
 
-    public void setQuantity(ProductLineItem productLineItem) {
+    public void setQuantity(SalesOrderLineItem soLineItem) {
+      ProductLineItem productLineItem = soLineItem.getProductLineItem();
       UOM uom = UOM.getUnitOfMessure(productLineItem.getUnitOfMeasure().getValue());
-      quantity += uom.toFloatQuantity(productLineItem);
+      quantity += uom.toFloatQuantity(productLineItem, soLineItem.getQuantity());
     }
 
     public Number toNumber() {

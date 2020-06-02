@@ -1,23 +1,22 @@
 package meru.erp.mdm.catalog.price;
 
-import org.apache.poi.ss.usermodel.Row;
+import java.util.Properties;
 
-public class SahajaProductSupplier implements ProductSupplier {
+import meru.app.AppContext;
 
-  @Override
-  public String getProductCode(Row row) {
-    return row.getCell(1).getStringCellValue();
+public class SahajaProductSupplier extends ArivuProductSupplier {
+
+  public SahajaProductSupplier(Properties properties,
+                               int nameIndex,
+                               int maxColumnIndex) {
+    super(properties, nameIndex, maxColumnIndex);
   }
 
-  @Override
-  public String getProductName(Row row) {
-    return row.getCell(2).getStringCellValue();
-  }
+  public static ArivuProductSupplier createProductSupplier(AppContext appContext) {
 
-  @Override
-  public String getFileName() {
-    return "sahaja-product-list.xlsx";
-  }
+    return new ArivuProductSupplier(ProductSupplier.loadProductCodes(appContext,
+                                                                     "sahaja-product-codes.txt"),
+        1, 3);
 
-  
+  }
 }

@@ -32,12 +32,13 @@ public class VeggiesPriceListAction extends EntityAction {
   private final String ID_LIST = FruitVegKey.OrganicFruits.getKey() + "," + FruitVegKey.OrganicVegetable.getKey() + ","
       + FruitVegKey.OrganicGreens.getKey();
 
-  private Map<String, ProductLineItem> prdLineItemMap = new LinkedHashMap<>();
+  private Map<String, ProductLineItem> prdLineItemMap;
 
   @Override
   public ActionEntity act(ActionEntity actionEntity) {
 
     System.out.println("Generating the report");
+    prdLineItemMap = new LinkedHashMap<>();
     populateProductList();
     File updFile = updatePrice();
     return new FileEntity(EComConfig.APP_TEMP_FOLDER + updFile.getName());
@@ -63,8 +64,9 @@ public class VeggiesPriceListAction extends EntityAction {
     List<ProductLineItem> prdLineItemList = appEngine.get(prdLineItemQuery);
 
     for (ProductLineItem productLineItem : prdLineItemList) {
-
+      
       if (UOM.representsUnitPrice(productLineItem)) {
+        
         String code = productLineItem.getCode();
         if (code.contains("-")) {
           code = code.substring(0,

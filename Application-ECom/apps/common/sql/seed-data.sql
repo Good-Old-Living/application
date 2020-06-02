@@ -76,6 +76,7 @@ delete from core_app_entity_state;
 
 insert into core_app_entity_state(id, entity, code, status) values(1, "SalesOrder", 1, "New");
 insert into core_app_entity_state(id, entity, code, status) values(2, "SalesOrder", 2, "In-Process");
+insert into core_app_entity_state(id, entity, code, status) values(4, "SalesOrder", 4, "Pending Delivery");
 insert into core_app_entity_state(id, entity, code, status) values(5, "SalesOrder", 6, "Delivered");
 insert into core_app_entity_state(id, entity, code, status) values(6, "SalesOrder", 10, "Cancelled By Customer");
 insert into core_app_entity_state(id, entity, code, status) values(7, "SalesOrder", 11, "Cancelled");

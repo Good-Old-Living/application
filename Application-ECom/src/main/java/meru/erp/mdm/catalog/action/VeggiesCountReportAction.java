@@ -1,17 +1,14 @@
 package meru.erp.mdm.catalog.action;
 
 import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.Calendar;
-import java.util.Properties;
 
 import app.config.EComConfig;
-import meru.app.AppProperty;
 import meru.erp.ActionEntity;
 import meru.erp.ActionEntity.EntityAction;
 import meru.erp.mdm.catalog.price.ArivuProductSupplier;
 import meru.erp.mdm.catalog.price.ProductListXLSWriter;
+import meru.erp.mdm.catalog.price.ProductSupplier;
 import meru.erp.mdm.catalog.price.SahajaProductSupplier;
 import meru.exception.AppException;
 import meru.sys.SystemDateTime;
@@ -28,33 +25,25 @@ public class VeggiesCountReportAction extends EntityAction {
     String fromDateTime = data[1];
     Calendar dateTime = SystemDateTime.parseDateTime(fromDateTime);
 
-    ProductListXLSWriter excelWriter = null;
-    
+    ProductSupplier productSupplier = null;
     switch (supplier) {
-      
+
       case "Sahaja":
-        excelWriter = new ProductListXLSWriter(appEngine, 4, new SahajaProductSupplier());
+        productSupplier = SahajaProductSupplier.createProductSupplier(appContext);
         break;
       case "Arivu":
-        
-        Properties arivuPrdCodes = new Properties();
-        try (InputStream inputStream = appContext.getInputStream(AppProperty.RESOURCES_DIR+"arivu-product-codes.txt")) {
-          arivuPrdCodes.load(inputStream);
-        } catch (IOException e) {
-          throw new AppException(e, "Unable to load product codes");
-        }
-        
-        excelWriter = new ProductListXLSWriter(appEngine, 3, new ArivuProductSupplier(arivuPrdCodes));
+        productSupplier = ArivuProductSupplier.createProductSupplier(appContext);
         break;
-        
-        default :
-          throw new AppException("Unknown supplier : "+supplier);
+
+      default:
+        throw new AppException("Unknown supplier : " + supplier);
     }
-    
-    
+
+    ProductListXLSWriter excelWriter = new ProductListXLSWriter(appEngine, productSupplier.getMaximumColumnIndex(),
+        productSupplier);
+
     System.out.println("Generating the report");
-    File file = new File(EComConfig.VEGGIES_LIST_TEMP_PATH,
-                         supplier + EComConfig.VEGGIES_LIST_FILE_NAME);
+    File file = new File(EComConfig.VEGGIES_LIST_TEMP_PATH, supplier + EComConfig.VEGGIES_LIST_FILE_NAME);
     excelWriter.write(file,
                       supplier,
                       dateTime);

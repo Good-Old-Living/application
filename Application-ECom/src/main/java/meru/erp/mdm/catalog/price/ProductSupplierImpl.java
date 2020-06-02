@@ -9,14 +9,11 @@ import org.apache.poi.ss.usermodel.Row;
 public class ProductSupplierImpl implements ProductSupplier {
 
   private Map<String, String> productCodeMap = new HashMap<>();
-  private String fileName;
   private int nameColumn;
 
   public ProductSupplierImpl(Properties properties,
-                             String fileName,
                              int nameColumn) {
 
-    this.fileName = fileName;
     this.nameColumn = nameColumn;
 
     for (Object property : properties.keySet()) {
@@ -44,7 +41,10 @@ public class ProductSupplierImpl implements ProductSupplier {
   }
 
   @Override
-  public String getFileName() {
-    return fileName;
+  public int getMaximumColumnIndex() {
+    // TODO Auto-generated method stub
+    return 0;
   }
+
+
 }

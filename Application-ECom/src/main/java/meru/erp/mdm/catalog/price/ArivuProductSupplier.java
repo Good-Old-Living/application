@@ -6,11 +6,19 @@ import java.util.Properties;
 
 import org.apache.poi.ss.usermodel.Row;
 
+import meru.app.AppContext;
+
 public class ArivuProductSupplier implements ProductSupplier {
 
   private Map<String, String> productCodeMap = new HashMap<>();
+  private int nameIndex;
+  private int maxColumnIndex;
 
-  public ArivuProductSupplier(Properties properties) {
+  public ArivuProductSupplier(Properties properties,
+                              int nameIndex,
+                              int maxColumnIndex) {
+    this.nameIndex = nameIndex;
+    this.maxColumnIndex = maxColumnIndex;
 
     for (Object property : properties.keySet()) {
       productCodeMap.put(properties.getProperty((String) property),
@@ -19,9 +27,17 @@ public class ArivuProductSupplier implements ProductSupplier {
 
   }
 
+  public static ArivuProductSupplier createProductSupplier(AppContext appContext) {
+
+    return new ArivuProductSupplier(ProductSupplier.loadProductCodes(appContext,
+                                                                     "arivu-product-codes.txt"),
+        1, 3);
+
+  }
+
   @Override
   public String getProductCode(Row row) {
-    String name = row.getCell(1).getStringCellValue().trim();
+    String name = row.getCell(nameIndex).getStringCellValue().trim();
     String value = productCodeMap.get(name);
 
     if (value == null) {
@@ -30,14 +46,15 @@ public class ArivuProductSupplier implements ProductSupplier {
 
     return value;
   }
-  
+
   @Override
   public String getProductName(Row row) {
-    return row.getCell(1).getStringCellValue();
+    return row.getCell(nameIndex).getStringCellValue();
   }
 
   @Override
-  public String getFileName() {
-    return "arivu-product-list.xlsx";
+  public int getMaximumColumnIndex() {
+    return maxColumnIndex;
   }
+
 }

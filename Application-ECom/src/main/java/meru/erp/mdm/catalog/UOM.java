@@ -10,11 +10,9 @@ public enum UOM {
                    }
                  },
                  GM {
-                   public float toFloatQuantity(ProductLineItem productLineItem) {
+                   public float toFloatQuantity(ProductLineItem productLineItem, int quantity) {
 
-                     float quantity = productLineItem.getQuantity();
-
-                     return (quantity / 100) * 0.1f;
+                     return (((float)productLineItem.getQuantity() / 100) * 0.1f)*quantity;
 
                    }
 
@@ -45,9 +43,9 @@ public enum UOM {
                    }
                  };
 
-  public float toFloatQuantity(ProductLineItem productLineItem) {
+  public float toFloatQuantity(ProductLineItem productLineItem, int quantity) {
 
-    return productLineItem.getQuantity();
+    return productLineItem.getQuantity()*quantity;
   }
 
   public float adjustPrice(ProductLineItem productLineItem,

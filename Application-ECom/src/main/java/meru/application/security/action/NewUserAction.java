@@ -42,7 +42,10 @@ public class NewUserAction extends AccountAction {
     mobile = checkMobileNumber(mobile);
 
     NewUser newUser = getNewUser(mobile);
-
+    if (newUser == null) {
+      throw new AppException("We are unable to fnd your number in our system");
+    }
+    
     String encOtp = Password.encryptPassword(otp);
     if (!encOtp.equals(newUser.getMobileAccessToken())) {
       throw new IllegalArgumentException("The OTP is invalid");

@@ -3,3 +3,4 @@ build/
 bin/
 classes/
 .gradle/
+Application-ECom/.gradle/
