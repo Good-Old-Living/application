@@ -27,6 +27,7 @@ public class SalesOrderLifeCycle extends BusinessAppEntityLifeCycle<SalesOrder> 
   public static final String SEQ_PAYMENT_GATEWAY_ID = "PaymentGateway.Id";
 
   private SalesOrderBagProvider mSalesOrderBagProvider;
+  private SalesOrderSplitter salesOrderSplitter;
 
   private ProductLineItemLifeCycle mProductLineItemLifeCycle;
 
@@ -38,6 +39,8 @@ public class SalesOrderLifeCycle extends BusinessAppEntityLifeCycle<SalesOrder> 
 
   @Override
   public void init() {
+    
+    salesOrderSplitter = new SalesOrderSplitter(appEngine);
 
     mProductLineItemLifeCycle = appEngine.getEntityLifeCycle(ProductLineItem.class,
                                                              ProductLineItemLifeCycle.class);
@@ -62,6 +65,11 @@ public class SalesOrderLifeCycle extends BusinessAppEntityLifeCycle<SalesOrder> 
       cancelSalesOrder(salesOrder);
 
     }
+    else  if (AppRequest.currentRequest().existsParameter("splitVeggies")) {
+
+      return salesOrderSplitter.splitVegetableItems(salesOrder);
+
+    }
 
     return salesOrder;
   }
@@ -69,6 +77,11 @@ public class SalesOrderLifeCycle extends BusinessAppEntityLifeCycle<SalesOrder> 
   @Override
   public boolean preCreate(SalesOrder salesOrder) {
 
+    //check if the order is split from veggies
+    if (salesOrder.getOrderId() != null && salesOrder.getOrderId().contains("-")) {
+      return true;
+    }
+    
     if (mergeSalesOrderIfAlreadyExists(salesOrder)) {
       return false;
     }
@@ -100,6 +113,12 @@ public class SalesOrderLifeCycle extends BusinessAppEntityLifeCycle<SalesOrder> 
   @Override
   public Object postCreate(SalesOrder salesOrder) {
 
+    //Order is split
+    if (salesOrder.getOrderId().contains("-")) {
+      return salesOrder;
+    }
+    
+    
     createOrderItems(salesOrder,
                      mSalesOrderBagProvider.getSalesOrderBag(salesOrder));
 

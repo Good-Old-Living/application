@@ -12,7 +12,6 @@ import app.erp.sales.SalesOrderLineItem;
 import meru.app.AppRequest;
 import meru.app.engine.entity.AbstractEntityLifeCycle;
 import meru.ecom.store.SessionShoppingCart;
-import meru.erp.SalesOrderHelper;
 import meru.erp.mdm.catalog.lifecycle.ProductLineItemLifeCycle;
 import meru.erp.sales.SalesOrderBag;
 import meru.erp.sales.SalesOrderBagProvider;

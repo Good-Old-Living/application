@@ -28,4 +28,17 @@ public enum FruitVegKey {
     
     return list;
   }
+  
+  public static boolean containsKey(long key) {
+    
+    for (FruitVegKey fvKey : FruitVegKey.values()) {
+      if (fvKey.getKey() == key) {
+        return true;
+      }
+    }
+    
+    return false;
+    
+  }
+  
 }
