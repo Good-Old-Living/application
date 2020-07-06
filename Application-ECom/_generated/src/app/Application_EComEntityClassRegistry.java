@@ -36,10 +36,14 @@ public class Application_EComEntityClassRegistry extends meru.app.registry.Entit
         addResourceClass("ProductNotification", app.ecom.shopping.ProductNotification.class);
         addResourceClass("ShoppingCart", app.ecom.shopping.cart.ShoppingCart.class);
         addResourceClass("ShoppingCartLineItem", app.ecom.shopping.cart.ShoppingCartLineItem.class);
+        addResourceClass("CustomerWalletAmount", app.erp.mdm.bp.CustomerWalletAmount.class);
         addResourceClass("Customer", app.erp.mdm.bp.Customer.class);
         addResourceClass("BusinessPartnerGroup", app.erp.mdm.bp.BusinessPartnerGroup.class);
         addResourceClass("CustomerAddress", app.erp.mdm.bp.CustomerAddress.class);
+        addResourceClass("CustomerWallet", app.erp.mdm.bp.CustomerWallet.class);
+        addResourceClass("CustomerWalletHistory", app.erp.mdm.bp.CustomerWalletHistory.class);
         addResourceClass("BusinessPartner", app.erp.mdm.bp.BusinessPartner.class);
+        addResourceClass("CustomerPayment", app.erp.mdm.bp.CustomerPayment.class);
         addResourceClass("CustomerGroup", app.erp.mdm.bp.CustomerGroup.class);
         addResourceClass("ProductCategoryFeature", app.erp.mdm.catalog.ProductCategoryFeature.class);
         addResourceClass("VegetablePriceList", app.erp.mdm.catalog.VegetablePriceList.class);

@@ -1,27 +1,29 @@
-<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="app.erp.mdm.bp" xmlns="app.erp.mdm.bp" xmlns:r="app.domain" xmlns:l="app.domain.location" xmlns:an="app.entity.annotation">
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="app.erp.mdm.bp" xmlns="app.erp.mdm.bp" xmlns:r="app.domain" xmlns:l="app.domain.location"
+    xmlns:an="app.entity.annotation">
 
-<xsd:import schemaLocation="$APPLICATION_HOME/module/ApplicationModule-Core/metadata/app-module/Core/Business Objects/app/domain/BOCommon.xsd" namespace="app.domain" />
+    <xsd:import schemaLocation="$APPLICATION_HOME/module/ApplicationModule-Core/metadata/app-module/Core/Business Objects/app/domain/BOCommon.xsd" namespace="app.domain" />
     <xsd:import schemaLocation="$APPLICATION_HOME/module/ApplicationModule-Core/metadata/app-module/Core/Business Objects/app/domain/AppEntity.xsd" namespace="app.domain" />
-    <xsd:import schemaLocation="$APPLICATION_HOME/module/ApplicationModule-BusinessApp/metadata/app-module/Core/Business Objects/app/domain/location/Address.xsd" namespace="app.domain.location" />
-    
-    <xsd:include schemaLocation="CustomerGroup.xsd"/>
-    
+    <xsd:import schemaLocation="$APPLICATION_HOME/module/ApplicationModule-BusinessApp/metadata/app-module/Core/Business Objects/app/domain/location/Address.xsd"
+        namespace="app.domain.location" />
+
+    <xsd:include schemaLocation="CustomerGroup.xsd" />
+
     <xsd:complexType name="Customer">
         <xsd:complexContent>
             <xsd:extension base="r:AppEntity">
                 <xsd:sequence>
-                    <xsd:element name="name" type="xsd:string" minOccurs="0"/>
-                    <xsd:element name="email" type="xsd:string" minOccurs="0"/>
-					<xsd:element name="mobile" type="xsd:string"/>
-				    <xsd:element ref="group" minOccurs="0"/>
-					<xsd:element name="userId" type="xsd:long"/>
-				</xsd:sequence>
-				<xsd:attribute name="uniqueKey" default="userId"/>
+                    <xsd:element name="name" type="xsd:string" minOccurs="0" />
+                    <xsd:element name="email" type="xsd:string" minOccurs="0" />
+                    <xsd:element name="mobile" type="xsd:string" />
+                    <xsd:element ref="group" minOccurs="0" />
+                    <xsd:element name="userId" type="xsd:long" />
+                </xsd:sequence>
+                <xsd:attribute name="uniqueKey" default="userId" />
             </xsd:extension>
         </xsd:complexContent>
 
     </xsd:complexType>
 
     <xsd:element name="customer" type="Customer" />
-    <xsd:element name="group" type="CustomerGroup"/>
+    <xsd:element name="group" type="CustomerGroup" />
 </xsd:schema>

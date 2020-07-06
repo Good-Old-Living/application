@@ -31,6 +31,7 @@ allprojects {
 	compile files("/scratch/dev/thirdparty/apache/poi-4.1.0/lib/commons-collections4-4.3.jar")
 	compile files("/scratch/dev/thirdparty/apache/poi-4.1.0/lib/commons-compress-1.18.jar")
 	compile files("/scratch/dev/thirdparty/apache/poi-4.1.0/poi-ooxml-schemas-4.1.0.jar")
+	compile files("/scratch/app/apache-tomcat-8.5.43/webapps/ROOT/WEB-INF/lib/PaytmChecksum.jar")
       testCompile 'junit:junit:4.12'
     }
     

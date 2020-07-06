@@ -40,6 +40,15 @@ insert into core_property(id, prefix, name, type, value) values(60, 'mail', 'use
 insert into core_property(id, prefix, name, type, value) values(71, 'mail', 'order.email', 'string', 'kiruthigaa@paaril.com');
 insert into core_property(id, prefix, name, type, value) values(72, 'mail', 'order.email.bcc', 'string', 'kirusiva28@gmail.com,sivarajs@gmail.com');
 
+insert into core_property(id, prefix, name, type, value) values(80, 'sms', 'order.mobile', 'string', '919880960654');
+insert into core_property(id, prefix, name, type, value) values(90, 'sms', 'provider.url', 'string', 'https://smsapi.24x7sms.com/api_2.0/SendSMS.aspx?APIKEY=hDuiVf92kbx&SenderID=PAARIL&ServiceName=TEMPLATE_BASED&MobileNo={0}&Message={1}');
+
+
+insert into core_property(id, prefix, name, type, value) values(81, 'app', 'order.walletThreshold', 'string', '50');
+insert into core_property(id, prefix, name, type, value) values(1001, 'app', 'error.insufficent_balance', 'string', 'Insufficient balance in your wallet. Please add money to your wallet by paying via UPI (GPay, PhonePe, PayTM) to 9880960654 (Kiruthiga) and drop a message to the same number');
+
+
+
 delete from core_property_group;
 insert into core_property_group(id, name, value) values(1, 'attribute-feature-type', 'Text');
 insert into core_property_group(id, name, value) values(2, 'attribute-feature-type', 'List');
@@ -77,6 +86,14 @@ insert into core_property_group(id, name, value) values(202, 'delivery-time-slot
 insert into core_property_group(id, name, value) values(203, 'delivery-time-slot', '3 PM to 5 PM');
 insert into core_property_group(id, name, value) values(204, 'delivery-time-slot', '7 PM to 9 PM');
 
+insert into core_property_group(id, name, value) values(251, 'upi-provider', 'GPay');
+insert into core_property_group(id, name, value) values(252, 'upi-provider', 'PhonePe');
+insert into core_property_group(id, name, value) values(253, 'upi-provider', 'PayTM');
+
+delete from bp_customer_group;
+
+insert into bp_customer_group(id, name, discount, wallet_exempted) values(1, 'Regular', 0, 'Y');
+
 
 delete from core_app_hierarchical_entity;
 
@@ -102,8 +119,9 @@ insert into core_app_hierarchical_entity(id, parent_id, type, name, kind) values
 insert into core_app_hierarchical_entity(id, parent_id, type, name, kind, action) values(121,101,'app-module-menu','Product Category','entity','app/module/mdm/catalog/ProductCategory.xhtml');
 insert into core_app_hierarchical_entity(id, parent_id, type, name, kind, action) values(122,101,'app-module-menu','Product','entity','app/module/mdm/catalog/Product.xhtml');
 insert into core_app_hierarchical_entity(id, parent_id, type, name, kind, action) values(123,101,'app-module-menu','Business Partner','entity','app/module/mdm/bp/bp.xhtml');
-insert into core_app_hierarchical_entity(id, parent_id, type, name, kind, action) values(124,101,'app-module-menu','Apartment','entity','app/module/mdm/apartment.xhtml');
-insert into core_app_hierarchical_entity(id, parent_id, type, name, kind, action) values(125,101,'app-module-menu','Vegetable Price Upload','entity','app/module/mdm/catalog/VegetablePriceList.xhtml');
+insert into core_app_hierarchical_entity(id, parent_id, type, name, kind, action) values(124,101,'app-module-menu','Customer','entity','app/module/mdm/bp/Customer.xhtml');
+insert into core_app_hierarchical_entity(id, parent_id, type, name, kind, action) values(125,101,'app-module-menu','Housing Address','entity','app/module/mdm/bp/HousingComplexAddress.xhtml');
+insert into core_app_hierarchical_entity(id, parent_id, type, name, kind, action) values(126,101,'app-module-menu','Vegetable Price Upload','entity','app/module/mdm/catalog/VegetablePriceList.xhtml');
 
 insert into core_app_hierarchical_entity(id, parent_id, type, name, kind, action) values(401,104,'app-module-menu','Purchase Order','entity','app/module/purchase/PurchaseOrder.xhtml');
 
@@ -122,12 +140,14 @@ delete from core_app_entity_state;
 
 insert into core_app_entity_state(id, entity, code, status) values(1, "SalesOrder", 1, "New");
 insert into core_app_entity_state(id, entity, code, status) values(2, "SalesOrder", 2, "In-Process");
-insert into core_app_entity_state(id, entity, code, status) values(3, "SalesOrder", 3, "Shipped");
+insert into core_app_entity_state(id, entity, code, status) values(3, "SalesOrder", 3, "Pending Payment");
 insert into core_app_entity_state(id, entity, code, status) values(4, "SalesOrder", 4, "Pending Delivery");
 insert into core_app_entity_state(id, entity, code, status) values(5, "SalesOrder", 5, "Delivered");
 insert into core_app_entity_state(id, entity, code, status) values(6, "SalesOrder", 6, "Cancelled By Customer");
 insert into core_app_entity_state(id, entity, code, status) values(7, "SalesOrder", 7, "Cancelled");
 
+insert into core_app_entity_state(id, entity, code, status) values(51, "SalesOrderPayment", 1, "Cash On Delivery");
+insert into core_app_entity_state(id, entity, code, status) values(52, "SalesOrderPayment", 2, "Wallet");
 
 delete from fin_payment_method;
 insert into fin_payment_method(id, name, uid) values (1,'Cash/Card On Delivery', 'COD');
