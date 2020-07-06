@@ -6,6 +6,7 @@ import app.erp.sales.SalesOrder;
 import app.erp.sales.SalesOrderLineItem;
 import meru.app.engine.AppEngine;
 import meru.erp.mdm.catalog.FruitVegKey;
+import meru.exception.AppException;
 import meru.persistence.EntityQuery;
 
 public class SalesOrderSplitter {
@@ -18,22 +19,39 @@ public class SalesOrderSplitter {
 
   public SalesOrder splitVegetableItems(SalesOrder salesOrder) {
 
-    SalesOrder newSalesOrder = createSplitOrderForNonVeggies(salesOrder);
-
     EntityQuery<SalesOrderLineItem> soLineItemQuery = appEngine.createQuery(SalesOrderLineItem.class);
     soLineItemQuery.addQueryParameter("salesOrderId",
                                       salesOrder.getId());
 
     List<SalesOrderLineItem> existingLineItems = appEngine.get(soLineItemQuery);
 
+    SalesOrder newSalesOrder = null;
+    float amount = 0;
+
     for (SalesOrderLineItem soLineItem : existingLineItems) {
 
       if (!FruitVegKey.containsKey(soLineItem.getProductLineItem().getProduct().getProductCategory().getId())) {
-        createNonVeggiesLineItem(soLineItem, newSalesOrder.getId());
+
+        if (newSalesOrder == null) {
+          newSalesOrder = createSplitOrderForNonVeggies(salesOrder);
+        }
+
+        SalesOrderLineItem newSOLineItem = createNonVeggiesLineItem(soLineItem,
+                                                                    newSalesOrder.getId());
+        
+        amount += newSOLineItem.getTotalPrice();
       }
 
     }
+
     
+    if (newSalesOrder == null) {
+      throw new AppException("Nothing to split");
+    }
+    
+    newSalesOrder.setAmount(amount);
+    appEngine.save(newSalesOrder);
+
     return newSalesOrder;
 
   }
@@ -56,9 +74,10 @@ public class SalesOrderSplitter {
     appEngine.save(newSalesOrder);
     return newSalesOrder;
   }
-  
-  private void createNonVeggiesLineItem(SalesOrderLineItem soLineItem, Long salesOrderId) {
-    
+
+  private SalesOrderLineItem createNonVeggiesLineItem(SalesOrderLineItem soLineItem,
+                                                      Long salesOrderId) {
+
     SalesOrderLineItem newSOLineItem = new SalesOrderLineItem();
     newSOLineItem.setDiscount(soLineItem.getDiscount());
     newSOLineItem.setDiscountType(soLineItem.getDiscountType());
@@ -71,7 +90,11 @@ public class SalesOrderSplitter {
     newSOLineItem.setTotalPrice(soLineItem.getTotalPrice());
     newSOLineItem.setUnitMrp(soLineItem.getUnitMrp());
     newSOLineItem.setUnitPrice(soLineItem.getUnitPrice());
-    
+
     appEngine.save(newSOLineItem);
+    appEngine.remove(SalesOrderLineItem.class,
+                     soLineItem.getId());
+
+    return newSOLineItem;
   }
 }

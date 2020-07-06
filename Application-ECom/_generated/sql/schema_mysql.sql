@@ -26,10 +26,14 @@ drop table if exists sales_sales_order;
 drop table if exists store_product_notification;
 drop table if exists store_shopping_cart;
 drop table if exists store_shopping_cart_line_item;
+drop table if exists bp_customer_wallet_amount;
 drop table if exists bp_customer;
 drop table if exists bp_business_partner_group;
 drop table if exists bp_customer_address;
+drop table if exists bp_customer_wallet;
+drop table if exists bp_customer_wallet_history;
 drop table if exists bp_business_partner;
+drop table if exists bp_customer_payment;
 drop table if exists bp_customer_group;
 drop table if exists mdm_product_category_feature;
 drop table if exists mdm_product_line_item;
@@ -322,6 +326,13 @@ create table store_shopping_cart_line_item (
     CONSTRAINT UK_store_shopping_cart_line_item_1726628601 UNIQUE (shopping_cart_id,product_line_item_id)
 ) ENGINE=InnoDB;
 
+create table bp_customer_wallet_amount (
+    id bigint not null primary key auto_increment,
+    customer_id bigint not null,
+    amount int not null,
+    CONSTRAINT UK_bp_customer_wallet_amount__492871880 UNIQUE (customer_id)
+) ENGINE=InnoDB;
+
 create table bp_customer (
     id bigint not null primary key auto_increment,
     name varchar(100),
@@ -350,6 +361,26 @@ create table bp_customer_address (
     is_primary varchar(1)
 ) ENGINE=InnoDB;
 
+create table bp_customer_wallet (
+    id bigint not null primary key auto_increment,
+    customer_id bigint not null,
+    amount int not null,
+    created_on timestamp not null,
+    updated_on timestamp null,
+    CONSTRAINT UK_bp_customer_wallet__492871880 UNIQUE (customer_id)
+) ENGINE=InnoDB;
+
+create table bp_customer_wallet_history (
+    id bigint not null primary key auto_increment,
+    customer_id bigint not null,
+    curr_amount int not null,
+    prev_amount int not null,
+    amount_deducted int,
+    amount_added int,
+    description varchar(100),
+    created_on timestamp not null
+) ENGINE=InnoDB;
+
 create table bp_business_partner (
     id bigint not null primary key auto_increment,
     name varchar(100) not null,
@@ -361,10 +392,22 @@ create table bp_business_partner (
     CONSTRAINT UK_bp_business_partner_91108202 UNIQUE (name)
 ) ENGINE=InnoDB;
 
+create table bp_customer_payment (
+    id bigint not null primary key auto_increment,
+    customer_id bigint not null,
+    transaction_id varchar(100) not null,
+    amount int not null,
+    status varchar(100) not null,
+    checksum varchar(500) not null,
+    created_on timestamp not null,
+    CONSTRAINT UK_bp_customer_payment_1624361938 UNIQUE (customer_id,transaction_id)
+) ENGINE=InnoDB;
+
 create table bp_customer_group (
     id bigint not null primary key auto_increment,
     name varchar(100) not null,
     discount float not null,
+    wallet_exempted varchar(1),
     CONSTRAINT UK_bp_customer_group_91108202 UNIQUE (name)
 ) ENGINE=InnoDB;
 

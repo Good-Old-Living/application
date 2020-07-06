@@ -30,5 +30,6 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/App-Binding-Http"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/App-Session"/>
 	<classpathentry kind="lib" path="/scratch/dev/git-repo/app-platform/build/libs/app-platform-1.0.jar" sourcepath="/App-Binding-Http"/>
+	<classpathentry kind="lib" path="/scratch/app/apache-tomcat-8.5.43/webapps/ROOT/WEB-INF/lib/PaytmChecksum.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

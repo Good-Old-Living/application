@@ -25,8 +25,6 @@ insert into core_property(id, prefix, name, type, value) values(71, 'mail', 'ord
 insert into core_property(id, prefix, name, type, value) values(72, 'mail', 'order.email.bcc', 'string', 'kirusiva28@gmail.com,sivarajs@gmail.com');
 
 insert into core_property(id, prefix, name, type, value) values(80, 'sms', 'order.mobile', 'string', '919880960654');
-
-
 insert into core_property(id, prefix, name, type, value) values(90, 'sms', 'provider.url', 'string', 'https://smsapi.24x7sms.com/api_2.0/SendSMS.aspx?APIKEY=hDuiVf92kbx&SenderID=PAARIL&ServiceName=TEMPLATE_BASED&MobileNo={0}&Message={1}');
 
 
@@ -55,6 +53,7 @@ insert into core_app_hierarchical_entity(id, parent_id, type, name, kind) values
 insert into core_app_hierarchical_entity(id, parent_id, type, name, kind, action) values(121,101,'app-module-menu','Product Category','entity','app/module/mdm/catalog/ProductCategory.xhtml');
 insert into core_app_hierarchical_entity(id, parent_id, type, name, kind, action) values(122,101,'app-module-menu','Product','entity','app/module/mdm/catalog/Product.xhtml');
 insert into core_app_hierarchical_entity(id, parent_id, type, name, kind, action) values(123,101,'app-module-menu','Business Partner','entity','app/module/mdm/bp/bp.xhtml');
+insert into core_app_hierarchical_entity(id, parent_id, type, name, kind, action) values(125,101,'app-module-menu','Customer Address','entity','app/module/mdm/bp/CustomerAddress.xhtml');
 insert into core_app_hierarchical_entity(id, parent_id, type, name, kind, action) values(124,101,'app-module-menu','Apartment','entity','app/module/mdm/apartment.xhtml');
 
 insert into core_app_hierarchical_entity(id, parent_id, type, name, kind, action) values(401,104,'app-module-menu','Purchase Order','entity','app/module/purchase/PurchaseOrder.xhtml');

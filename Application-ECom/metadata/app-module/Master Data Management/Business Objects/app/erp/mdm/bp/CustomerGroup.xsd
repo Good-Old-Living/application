@@ -8,6 +8,7 @@
 				<xsd:sequence>
 					<xsd:element name="name" type="xsd:string" />
 					<xsd:element name="discount" type="xsd:float" />
+                    <xsd:element name="walletExempted" type="xsd:boolean" minOccurs="0"/>
 				</xsd:sequence>
 				<xsd:attribute name="uniqueKey" default="name" />
 			</xsd:extension>

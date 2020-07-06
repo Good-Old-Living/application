@@ -1,0 +1,18 @@
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="app.erp.mdm.bp" xmlns="app.erp.mdm.bp" xmlns:r="app.domain" xmlns:an="app.entity.annotation">
+
+    <xsd:import schemaLocation="$APPLICATION_HOME/module/ApplicationModule-Core/metadata/app-module/Core/Business Objects/app/domain/AppEntity.xsd" namespace="app.domain" />
+    <xsd:complexType name="CustomerWallet">
+        <xsd:complexContent>
+            <xsd:extension base="r:AppEntity">
+                <xsd:sequence>
+                    <xsd:element name="customerId" type="xsd:long" />
+                    <xsd:element name="amount" type="xsd:int" />
+                    <xsd:element name="createdOn" type="xsd:dateTime" />
+                    <xsd:element name="updatedOn" type="xsd:dateTime" minOccurs="0" />
+                </xsd:sequence>
+                <xsd:attribute name="uniqueKey" default="customerId" />
+            </xsd:extension>
+        </xsd:complexContent>
+
+    </xsd:complexType>
+</xsd:schema>

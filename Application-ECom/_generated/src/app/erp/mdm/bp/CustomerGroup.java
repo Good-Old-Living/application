@@ -17,6 +17,10 @@ public class CustomerGroup extends AppEntity {
     @Column(name="discount", nullable=false)
     private Float discount;
 
+    @Column(name="wallet_exempted")
+    private String walletExempted = "N";
+    private transient boolean walletExemptedBoolean;
+
     public java.lang.String getName() {
         
         return name;
@@ -35,6 +39,36 @@ public class CustomerGroup extends AppEntity {
     public void setDiscount(Float discount) {
 
         this.discount = discount;
+    }
+
+    public java.lang.String getWalletExempted() {
+        
+        return walletExempted;
+    }
+
+    public void setWalletExempted(java.lang.String walletExempted) {
+
+        this.walletExempted = walletExempted;
+    }
+
+    public boolean walletExempted() {
+
+        return "Y".equals(walletExempted);
+    }
+
+    public Boolean getWalletExemptedBoolean() {
+        
+        return walletExempted != null && walletExempted.equals("Y");
+    }
+
+    public void setWalletExemptedBoolean(Boolean walletExemptedBoolean) {
+
+        walletExempted = walletExemptedBoolean ? "Y" : "N";
+    }
+
+    public boolean walletExemptedBoolean() {
+
+        return "Y".equals(walletExemptedBoolean);
     }
 
     public String toString() {

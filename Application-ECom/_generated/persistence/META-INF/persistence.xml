@@ -38,10 +38,14 @@
         <class>app.ecom.shopping.ProductNotification</class>
         <class>app.ecom.shopping.cart.ShoppingCart</class>
         <class>app.ecom.shopping.cart.ShoppingCartLineItem</class>
+        <class>app.erp.mdm.bp.CustomerWalletAmount</class>
         <class>app.erp.mdm.bp.Customer</class>
         <class>app.erp.mdm.bp.BusinessPartnerGroup</class>
         <class>app.erp.mdm.bp.CustomerAddress</class>
+        <class>app.erp.mdm.bp.CustomerWallet</class>
+        <class>app.erp.mdm.bp.CustomerWalletHistory</class>
         <class>app.erp.mdm.bp.BusinessPartner</class>
+        <class>app.erp.mdm.bp.CustomerPayment</class>
         <class>app.erp.mdm.bp.CustomerGroup</class>
         <class>app.erp.mdm.catalog.ProductCategoryFeature</class>
         <class>app.erp.mdm.catalog.VegetablePriceList</class>
