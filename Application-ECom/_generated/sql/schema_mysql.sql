@@ -23,6 +23,7 @@ drop table if exists comm_email;
 drop table if exists sales_sales_order_line_item;
 drop table if exists sales_sales_invoice;
 drop table if exists sales_sales_order;
+drop table if exists sales_payment_transaction;
 drop table if exists store_product_notification;
 drop table if exists store_shopping_cart;
 drop table if exists store_shopping_cart_line_item;
@@ -30,6 +31,7 @@ drop table if exists bp_customer_wallet_amount;
 drop table if exists bp_customer;
 drop table if exists bp_business_partner_group;
 drop table if exists bp_customer_address;
+drop table if exists bp_razor_pay_payment;
 drop table if exists bp_customer_wallet;
 drop table if exists bp_customer_wallet_history;
 drop table if exists bp_business_partner;
@@ -48,6 +50,7 @@ drop table if exists sec_new_user;
 drop table if exists sec_user_role;
 drop table if exists sec_user;
 drop table if exists bus_enterprise_address;
+drop table if exists bus_app_error;
 drop table if exists bus_enterprise;
 drop table if exists mar_sales_order_complimentary_item;
 drop table if exists mar_sales_offer;
@@ -291,14 +294,24 @@ create table sales_sales_order (
     session_id varchar(100) not null,
     delivery_address_id bigint not null,
     delivery_address_text varchar(500),
+    payment_method_id bigint,
     created_on timestamp not null,
-    payment_method_id bigint not null,
     amount float not null,
     code varchar(100),
     state_id bigint not null,
     payment_received varchar(1) not null,
     delivery_instructions varchar(500),
+    payment_mode_id bigint not null,
+    payment_order_id varchar(100),
+    payment_id varchar(100),
+    payment_transaction_id bigint,
     CONSTRAINT UK_sales_sales_order_1151114186 UNIQUE (order_id)
+) ENGINE=InnoDB;
+
+create table sales_payment_transaction (
+    id bigint not null primary key auto_increment,
+    wallet_amount_deducted int,
+    wallet_amount_added int
 ) ENGINE=InnoDB;
 
 create table store_product_notification (
@@ -359,6 +372,17 @@ create table bp_customer_address (
     housing_complex_address_id bigint,
     address_id bigint,
     is_primary varchar(1)
+) ENGINE=InnoDB;
+
+create table bp_razor_pay_payment (
+    id bigint not null primary key auto_increment,
+    customer_id bigint not null,
+    transaction_id varchar(100) not null,
+    order_id varchar(100) not null,
+    amount int not null,
+    status varchar(100) not null,
+    created_on timestamp not null,
+    CONSTRAINT UK_bp_razor_pay_payment_1624361938 UNIQUE (customer_id,transaction_id)
 ) ENGINE=InnoDB;
 
 create table bp_customer_wallet (
@@ -565,6 +589,13 @@ create table bus_enterprise_address (
     address_id bigint not null,
     is_primary varchar(1),
     CONSTRAINT UK_bus_enterprise_address__1908266512 UNIQUE (enterprise_id,address_id)
+) ENGINE=InnoDB;
+
+create table bus_app_error (
+    id bigint not null primary key auto_increment,
+    source varchar(100) not null,
+    context varchar(100),
+    error varchar(1000) not null
 ) ENGINE=InnoDB;
 
 create table bus_enterprise (

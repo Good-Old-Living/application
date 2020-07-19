@@ -5,16 +5,19 @@ import java.util.Comparator;
 import java.util.List;
 
 import app.domain.AppEntityState;
+import app.domain.PropertyGroup;
 import app.erp.mdm.bp.Customer;
 import app.erp.mdm.bp.CustomerGroup;
 import app.erp.mdm.bp.CustomerWallet;
 import app.erp.mdm.bp.CustomerWalletAmount;
 import app.erp.mdm.catalog.ProductLineItem;
+import app.erp.sales.PaymentTransaction;
 import app.erp.sales.SalesOrder;
 import app.erp.sales.SalesOrderLineItem;
 import meru.app.AppRequest;
 import meru.app.service.AppServiceManager;
 import meru.application.lifecycle.BusinessAppEntityLifeCycle;
+import meru.erp.mdm.bp.PaymentDocumentId;
 import meru.erp.mdm.bp.lifecycle.CustomerWalletAmountLifeCycle;
 import meru.erp.mdm.catalog.lifecycle.ProductLineItemLifeCycle;
 import meru.erp.sales.SalesOrderBag;
@@ -23,6 +26,7 @@ import meru.erp.sales.SalesOrderDocumentId;
 import meru.erp.sales.SalesOrderState;
 import meru.exception.AppEntityWarning;
 import meru.exception.AppException;
+import meru.payment.razorpay.RazorPay;
 import meru.persistence.AttributeOperator;
 import meru.persistence.EntityQuery;
 import meru.sys.SystemCalendar;
@@ -48,6 +52,7 @@ public class SalesOrderLifeCycle extends BusinessAppEntityLifeCycle<SalesOrder> 
   private int walletAmountThreshold = 50;
   private String insufficientBalanceMsg;
   // private SalesOrderEmail orderEmail;
+  private PropertyGroup paymentMode;
 
   private static SalesOrderBlockComparator blockComparator = new SalesOrderBlockComparator();
 
@@ -76,6 +81,10 @@ public class SalesOrderLifeCycle extends BusinessAppEntityLifeCycle<SalesOrder> 
 
     //orderEmail = new SalesOrderEmail(appConfig, appContext);
     notifyMobile = appConfig.getProperty("sms.order.mobile");
+
+    //Wallet payment mode
+    //    paymentMode = appEngine.getEntity(PropertyGroup.class,
+    //                                      253L);
   }
 
   public void setSalesOrderBagProvider(SalesOrderBagProvider salesOrderBagProvider) {
@@ -94,7 +103,13 @@ public class SalesOrderLifeCycle extends BusinessAppEntityLifeCycle<SalesOrder> 
     } else if (AppRequest.currentRequest().existsParameter("splitVeggies")) {
 
       return salesOrderSplitter.splitVegetableItems(salesOrder);
+    } else if (AppRequest.currentRequest().existsParameter("generateRazorPayOrderId")) {
 
+      String payOrderId = RazorPay.createOrder(salesOrder.getTransactionId(),
+                                               salesOrder.getAmount());
+      salesOrder.setPaymentOrderId(payOrderId);
+      appEngine.save(salesOrder);
+      return salesOrder;
     }
 
     return salesOrder;
@@ -103,32 +118,24 @@ public class SalesOrderLifeCycle extends BusinessAppEntityLifeCycle<SalesOrder> 
   @Override
   public boolean preCreate(SalesOrder salesOrder) {
 
-    //checkWalletBalance(salesOrder);
-
     //check if the order is split from veggies
     if (salesOrder.getOrderId() != null && salesOrder.getOrderId().contains("-")) {
       return true;
     }
 
-    if (mergeSalesOrderIfAlreadyExists(salesOrder)) {
-      return false;
-    }
+    //checkWalletBalance(salesOrder);
 
     salesOrder.setSessionId(getSessionId());
 
-    // Long paymentMethodId = salesOrder.getPaymentMethod().getId();
-
-    //if (paymentMethodId == null || paymentMethodId == 1) {
     salesOrder.setState(getSalesOrderState(SalesOrderState.New.getCode()));
+
+    if (salesOrder.getPaymentMode() == null) {
+      PropertyGroup paymentMode = appEngine.getEntity(PropertyGroup.class, Long.valueOf(251));
+      salesOrder.setPaymentMode(paymentMode);
+    }
+    
     setOrderId(salesOrder);
     salesOrder.setCode(mRandomKeyGenerator.getKey());
-    //} else {
-    // salesOrder.setState(getSalesOrderState(SalesOrderState.PendingPayment.getCode()));
-    // long transSeq = appEngine.nextSequenceNumber(SEQ_PAYMENT_GATEWAY_ID);
-    // salesOrder.setTransactionId(new
-    // PaymentDocumentId(transSeq).toString());
-    //}
-
     salesOrder.setPaymentReceivedBoolean(false);
     salesOrder.setCreatedOn(mSystemCalendar.getCalendar());
 
@@ -141,19 +148,33 @@ public class SalesOrderLifeCycle extends BusinessAppEntityLifeCycle<SalesOrder> 
   @Override
   public boolean preModify(SalesOrder salesOrder) {
 
-    SalesOrder extSalesOrder = appEngine.get(SalesOrder.class,
-                                             salesOrder.getId());
-    
     //Delivered Status
-    if (extSalesOrder.getState().getCode() != 6 && salesOrder.getState().getCode() == 6) {
 
-      long customerId = Long.valueOf(salesOrder.getCustomerId());
-      int amount = Math.round(salesOrder.getAmount());
+    if (salesOrder.getState().getCode() == 6) {
 
-      customerWalletAmountLifeCycle.reduceMoney(customerId,
-                                                amount,
-                                                salesOrder.getOrderId());
+      if (salesOrder.getAmount() == 0) {
+        return true;
+      }
+      
+      
+      if (!customerWalletAmountLifeCycle.hasMoney(Long.valueOf(salesOrder.getCustomerId()))) {
+        return true;
+      }
+
+      SalesOrder extSalesOrder = appEngine.get(SalesOrder.class,
+                                               salesOrder.getId());
+
+      if (extSalesOrder.getState().getCode() != 6) {
+
+        long customerId = Long.valueOf(salesOrder.getCustomerId());
+        int amount = Math.round(salesOrder.getAmount());
+
+        customerWalletAmountLifeCycle.reduceMoney(customerId,
+                                                  amount,
+                                                  salesOrder.getOrderId());
+      }
     }
+    
     return true;
   }
 
@@ -167,6 +188,22 @@ public class SalesOrderLifeCycle extends BusinessAppEntityLifeCycle<SalesOrder> 
 
     createOrderItems(salesOrder,
                      mSalesOrderBagProvider.getSalesOrderBag(salesOrder));
+
+    long paymentModeId = salesOrder.getPaymentMode().getId();
+    if (paymentModeId == 253) {
+      salesOrder.setState(getSalesOrderState(SalesOrderState.PendingPayment.getCode()));
+      String paymentId = getPaymentId();
+      salesOrder.setTransactionId(paymentId);
+
+      String payOrderId = RazorPay.createOrder(paymentId,
+                                               salesOrder.getAmount());
+      salesOrder.setPaymentOrderId(payOrderId);
+    } else if (paymentModeId == 252) {
+      salesOrder.setState(getSalesOrderState(SalesOrderState.PendingPayment.getCode()));
+      String paymentId = getPaymentId();
+      salesOrder.setTransactionId(paymentId);
+      salesOrder.setPaymentOrderId(paymentId);
+    }
 
     try {
       sendSMS("OrderPlaced.txt",
@@ -186,6 +223,11 @@ public class SalesOrderLifeCycle extends BusinessAppEntityLifeCycle<SalesOrder> 
     // }
 
     return salesOrder;
+  }
+
+  private String getPaymentId() {
+    long paymentId = appEngine.nextSequenceNumber(SEQ_PAYMENT_GATEWAY_ID);
+    return new PaymentDocumentId(paymentId).toString();
   }
 
   private boolean mergeSalesOrderIfAlreadyExists(SalesOrder salesOrder) {
@@ -275,7 +317,21 @@ public class SalesOrderLifeCycle extends BusinessAppEntityLifeCycle<SalesOrder> 
 
     }
 
-    salesOrder.setAmount(salesOrderBag.getGrandTotal());
+    CustomerWallet wallet = customerWalletAmountLifeCycle.getWallet(Long.valueOf(salesOrder.getCustomerId()));
+    if (wallet.getAmount() > 0) {
+      int amountToDeduct = salesOrderBag.reduceWalletAmount(wallet.getAmount());
+      PaymentTransaction paymentTransaction = new PaymentTransaction();
+      paymentTransaction.setWalletAmountDeducted(amountToDeduct);
+      salesOrder.setPaymentTransaction(paymentTransaction);
+
+      customerWalletAmountLifeCycle.reduceMoney(Long.valueOf(salesOrder.getCustomerId()),
+                                                amountToDeduct,
+                                                salesOrder.getOrderId());
+    }
+
+    float amount = salesOrderBag.getGrandTotal();
+
+    salesOrder.setAmount(amount);
 
     //    Customer customer = appEngine.get(Customer.class,
     //                                      salesOrder.getCustomerId());

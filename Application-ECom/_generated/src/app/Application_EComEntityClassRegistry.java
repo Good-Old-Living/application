@@ -33,6 +33,7 @@ public class Application_EComEntityClassRegistry extends meru.app.registry.Entit
         addResourceClass("SalesOrderLineItem", app.erp.sales.SalesOrderLineItem.class);
         addResourceClass("SalesInvoice", app.erp.sales.SalesInvoice.class);
         addResourceClass("SalesOrder", app.erp.sales.SalesOrder.class);
+        addResourceClass("PaymentTransaction", app.erp.sales.PaymentTransaction.class);
         addResourceClass("ProductNotification", app.ecom.shopping.ProductNotification.class);
         addResourceClass("ShoppingCart", app.ecom.shopping.cart.ShoppingCart.class);
         addResourceClass("ShoppingCartLineItem", app.ecom.shopping.cart.ShoppingCartLineItem.class);
@@ -40,6 +41,7 @@ public class Application_EComEntityClassRegistry extends meru.app.registry.Entit
         addResourceClass("Customer", app.erp.mdm.bp.Customer.class);
         addResourceClass("BusinessPartnerGroup", app.erp.mdm.bp.BusinessPartnerGroup.class);
         addResourceClass("CustomerAddress", app.erp.mdm.bp.CustomerAddress.class);
+        addResourceClass("RazorPayPayment", app.erp.mdm.bp.RazorPayPayment.class);
         addResourceClass("CustomerWallet", app.erp.mdm.bp.CustomerWallet.class);
         addResourceClass("CustomerWalletHistory", app.erp.mdm.bp.CustomerWalletHistory.class);
         addResourceClass("BusinessPartner", app.erp.mdm.bp.BusinessPartner.class);
@@ -61,6 +63,7 @@ public class Application_EComEntityClassRegistry extends meru.app.registry.Entit
         addResourceClass("UserRole", app.domain.security.UserRole.class);
         addResourceClass("User", app.domain.security.User.class);
         addResourceClass("EnterpriseAddress", app.erp.EnterpriseAddress.class);
+        addResourceClass("AppError", app.erp.AppError.class);
         addResourceClass("Enterprise", app.erp.Enterprise.class);
         addResourceClass("SalesOrderComplimentaryItem", app.erp.marketing.SalesOrderComplimentaryItem.class);
         addResourceClass("SalesOffer", app.erp.marketing.SalesOffer.class);

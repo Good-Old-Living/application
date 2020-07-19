@@ -8,11 +8,15 @@ public enum SalesOrderState {
                                  "New"),
                              InProcess(2,
                                        "In-Process"),
-                             Delivered(6,
+                             PendingPayment(3,
+                                            "Panding Payment"),
+                             PendingDelivery(4,
+                                             "Panding Delivery"),
+                             Delivered(5,
                                        "Delivered"),
-                             CustomerCancelled(10,
+                             CustomerCancelled(6,
                                                "Cancelled By Customer"),
-                             Cancelled(11,
+                             Cancelled(7,
                                        "Cancelled");
 
   private int code;

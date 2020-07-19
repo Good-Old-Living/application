@@ -2,6 +2,7 @@ package app.erp.sales;
 
 import app.domain.AppEntity;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -34,13 +35,13 @@ public class SalesOrder extends AppEntity {
     @Column(name="delivery_address_text")
     private java.lang.String deliveryAddressText;
 
+    @OneToOne
+    @JoinColumn(name="payment_method_id")
+    private app.erp.finance.PaymentMethod paymentMethod;
+
     @Column(name="created_on", nullable=false)
     @Temporal(TemporalType.TIMESTAMP)
     private java.util.Calendar createdOn;
-
-    @OneToOne
-    @JoinColumn(name="payment_method_id", nullable=false)
-    private app.erp.finance.PaymentMethod paymentMethod;
 
     @Column(name="amount", nullable=false)
     private Float amount;
@@ -58,6 +59,20 @@ public class SalesOrder extends AppEntity {
 
     @Column(name="delivery_instructions")
     private java.lang.String deliveryInstructions;
+
+    @OneToOne
+    @JoinColumn(name="payment_mode_id", nullable=false)
+    private app.domain.PropertyGroup paymentMode;
+
+    @Column(name="payment_order_id")
+    private java.lang.String paymentOrderId;
+
+    @Column(name="payment_id")
+    private java.lang.String paymentId;
+
+    @OneToOne(cascade={CascadeType.ALL})
+    @JoinColumn(name="payment_transaction_id")
+    private app.erp.sales.PaymentTransaction paymentTransaction;
 
     public java.lang.String getOrderId() {
         
@@ -119,16 +134,6 @@ public class SalesOrder extends AppEntity {
         this.deliveryAddressText = deliveryAddressText;
     }
 
-    public java.util.Calendar getCreatedOn() {
-        
-        return createdOn;
-    }
-
-    public void setCreatedOn(java.util.Calendar createdOn) {
-
-        this.createdOn = createdOn;
-    }
-
     public app.erp.finance.PaymentMethod getPaymentMethod() {
         
         return paymentMethod;
@@ -137,6 +142,16 @@ public class SalesOrder extends AppEntity {
     public void setPaymentMethod(app.erp.finance.PaymentMethod paymentMethod) {
 
         this.paymentMethod = paymentMethod;
+    }
+
+    public java.util.Calendar getCreatedOn() {
+        
+        return createdOn;
+    }
+
+    public void setCreatedOn(java.util.Calendar createdOn) {
+
+        this.createdOn = createdOn;
     }
 
     public Float getAmount() {
@@ -207,5 +222,48 @@ public class SalesOrder extends AppEntity {
     public void setDeliveryInstructions(java.lang.String deliveryInstructions) {
 
         this.deliveryInstructions = deliveryInstructions;
+    }
+
+    public app.domain.PropertyGroup getPaymentMode() {
+        
+        return paymentMode;
+    }
+
+    public void setPaymentMode(app.domain.PropertyGroup paymentMode) {
+
+        this.paymentMode = paymentMode;
+    }
+
+    public java.lang.String getPaymentOrderId() {
+        
+        return paymentOrderId;
+    }
+
+    public void setPaymentOrderId(java.lang.String paymentOrderId) {
+
+        this.paymentOrderId = paymentOrderId;
+    }
+
+    public java.lang.String getPaymentId() {
+        
+        return paymentId;
+    }
+
+    public void setPaymentId(java.lang.String paymentId) {
+
+        this.paymentId = paymentId;
+    }
+
+    public app.erp.sales.PaymentTransaction getPaymentTransaction() {
+
+        if (paymentTransaction == null) {
+        }
+        
+        return paymentTransaction;
+    }
+
+    public void setPaymentTransaction(app.erp.sales.PaymentTransaction paymentTransaction) {
+
+        this.paymentTransaction = paymentTransaction;
     }
 }

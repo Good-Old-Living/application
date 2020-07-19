@@ -67,7 +67,9 @@ public class SalesOrderSplitter {
     newSalesOrder.setDeliveryAddressText(salesOrder.getDeliveryAddressText());
     newSalesOrder.setDeliveryInstructions(salesOrder.getDeliveryInstructions());
     newSalesOrder.setOrderId(salesOrder.getOrderId() + "-1");
-    newSalesOrder.setPaymentMethod(salesOrder.getPaymentMethod());
+    newSalesOrder.setPaymentMode(salesOrder.getPaymentMode());
+    newSalesOrder.setPaymentId(salesOrder.getPaymentId());
+    newSalesOrder.setPaymentOrderId(salesOrder.getPaymentOrderId());
     newSalesOrder.setSessionId(salesOrder.getSessionId());
     newSalesOrder.setState(salesOrder.getState());
 

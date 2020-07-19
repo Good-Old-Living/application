@@ -45,7 +45,7 @@ insert into core_property(id, prefix, name, type, value) values(90, 'sms', 'prov
 
 
 insert into core_property(id, prefix, name, type, value) values(81, 'app', 'order.walletThreshold', 'string', '50');
-insert into core_property(id, prefix, name, type, value) values(1001, 'app', 'error.insufficent_balance', 'string', 'Insufficient balance in your wallet. Please add money to your wallet by paying via UPI (GPay, PhonePe, PayTM) to 9880960654 (Kiruthiga) and drop a message to the same number');
+insert into core_property(id, prefix, name, type, value) values(1001, 'app', 'error.insufficent_balance', 'string', 'Insufficient balance in your wallet. Please add money to your wallet by paying via UPI (GPay, PhonePe, etc) to 9880960654 (Kiruthiga) and drop a message to the same number or use GPay (Menu->Wallet) integrated within our app to load your wallet');
 
 
 
@@ -86,9 +86,10 @@ insert into core_property_group(id, name, value) values(202, 'delivery-time-slot
 insert into core_property_group(id, name, value) values(203, 'delivery-time-slot', '3 PM to 5 PM');
 insert into core_property_group(id, name, value) values(204, 'delivery-time-slot', '7 PM to 9 PM');
 
-insert into core_property_group(id, name, value) values(251, 'upi-provider', 'GPay');
-insert into core_property_group(id, name, value) values(252, 'upi-provider', 'PhonePe');
-insert into core_property_group(id, name, value) values(253, 'upi-provider', 'PayTM');
+insert into core_property_group(id, name, value) values(251, 'payment-mode', 'Cash On Delivery');
+insert into core_property_group(id, name, value) values(252, 'payment-mode', 'GPay');
+insert into core_property_group(id, name, value) values(253, 'payment-mode', 'Credit Cart/Debit Cart/Net Banking');
+insert into core_property_group(id, name, value) values(254, 'payment-mode', 'Wallet');
 
 delete from bp_customer_group;
 

@@ -33,7 +33,7 @@ public class CustomerWalletAmountLifeCycle extends BusinessAppEntityLifeCycle<Cu
     return false;
   }
 
-  private CustomerWallet getWallet(Long customerId) {
+  public CustomerWallet getWallet(Long customerId) {
     EntityQuery<CustomerWallet> entityQuery = appEngine.createQuery(CustomerWallet.class);
     entityQuery.addQueryParameter("customerId",
                                   customerId);
@@ -74,6 +74,13 @@ public class CustomerWalletAmountLifeCycle extends BusinessAppEntityLifeCycle<Cu
             customerId,
             walletTxn);
   }
+  
+  public boolean hasMoney(Long customerId) {
+    CustomerWallet wallet = getWallet(customerId);
+    int amount = wallet.getAmount();
+    return amount > 0;
+        
+  }
 
   public void reduceMoney(Long customerId,
                           int amountToReduce,
@@ -83,7 +90,7 @@ public class CustomerWalletAmountLifeCycle extends BusinessAppEntityLifeCycle<Cu
     int amount = wallet.getAmount() - amountToReduce;
 
     if (amount < 0) {
-      throw new AppException("Insufficient balance in the wallet");
+      throw new AppException("Insufficient balance in the wallet ");
     }
 
     CustomerWalletHistory walletHistory = createWalletHistory(wallet);

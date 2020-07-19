@@ -1,15 +1,26 @@
--- alter table mdm_product add column delivery_instructions varchar(100);
+ delete from core_property_group where id in(251,252,253);
+ 
+insert into core_property_group(id, name, value) values(251, 'payment-mode', 'Cash On Delivery');
+insert into core_property_group(id, name, value) values(252, 'payment-mode', 'GPay');
+insert into core_property_group(id, name, value) values(253, 'payment-mode', 'Credit Cart/Debit Cart/Net Banking');
+insert into core_property_group(id, name, value) values(254, 'payment-mode', 'Wallet');
 
-drop table bp_customer_group;
-create table bp_customer_group (
+alter table sales_sales_order add column payment_method_id bigint;
+
+alter table sales_sales_order add column payment_mode_id bigint not null default 251;
+alter table sales_sales_order add column payment_order_id varchar(100);
+alter table sales_sales_order add column payment_id varchar(100);
+alter table sales_sales_order add column payment_transaction_id bigint;
+
+create table sales_payment_transaction (
     id bigint not null primary key auto_increment,
-    name varchar(100) not null,
-    discount float not null,
-    wallet_exempted varchar(1),
-    CONSTRAINT UK_bp_customer_group_91108202 UNIQUE (name)
+    sales_order_id bigint not null,
+    wallet_amount_deducted int,
+    wallet_amount_added int,
+    CONSTRAINT UK_sales_payment_transaction__1250121668 UNIQUE (sales_order_id)
 ) ENGINE=InnoDB;
 
-insert into core_property(id, prefix, name, type, value) values(81, 'app', 'order.walletThreshold', 'string', '50');
-insert into core_property(id, prefix, name, type, value) values(1001, 'app', 'error.insufficent_balance', 'string', 'Insufficient balance in your wallet. Please add money to your wallet by paying via UPI (GPay, PhonePe, PayTM) to 9880960654 (Kiruthiga) and drop a message to the same number');
 
-insert into bp_customer_group(id, name, discount, wallet_exempted) values(1, 'Regular', 0, 'Y');
+
+
+alter table sales_payment_transaction drop column sales_order_id;
