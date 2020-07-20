@@ -28,6 +28,7 @@ public class SessionShoppingCartLifeCycle extends AbstractEntityLifeCycle<Sessio
                                                         Object id) {
 
     SessionShoppingCart shoppingBag = mShoppingCartLifeCycle.getCurrentSessionShoppingCart();
+    
     return shoppingBag;
   }
 

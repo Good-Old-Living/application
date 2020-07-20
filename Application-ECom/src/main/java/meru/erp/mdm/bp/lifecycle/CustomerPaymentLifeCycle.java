@@ -1,11 +1,13 @@
 package meru.erp.mdm.bp.lifecycle;
 
+import com.razorpay.RazorpayException;
+
 import app.erp.mdm.bp.Customer;
 import app.erp.mdm.bp.CustomerPayment;
 import meru.app.engine.entity.AbstractEntityLifeCycle;
 import meru.erp.mdm.bp.PaymentDocumentId;
-import meru.payment.paytm.PayTMPayment;
-import meru.payment.paytm.PayTMStaging;
+import meru.exception.AppException;
+import meru.payment.razorpay.RazorPay;
 import meru.sys.SystemCalendar;
 
 public class CustomerPaymentLifeCycle extends AbstractEntityLifeCycle<CustomerPayment> {
@@ -30,21 +32,24 @@ public class CustomerPaymentLifeCycle extends AbstractEntityLifeCycle<CustomerPa
     payment.setStatus("In-Process");
     payment.setCreatedOn(mSystemCalendar.getCalendar());
 
-    PayTMPayment paytmPaymenet = new PayTMStaging();
-    String checksum = paytmPaymenet.getChecksum(transactionId,
-                                                String.valueOf(payment.getCustomerId()),
-                                                customer.getMobile(),
-                                                customer.getEmail(),
-                                                payment.getAmount());
+    //    PayTMPayment paytmPaymenet = new PayTMStaging();
+    //    String checksum = paytmPaymenet.getChecksum(transactionId,
+    //                                                String.valueOf(payment.getCustomerId()),
+    //                                                customer.getMobile(),
+    //                                                customer.getEmail(),
+    //                                                payment.getAmount());
 
-    payment.setChecksum(checksum);
+    //   payment.setChecksum(checksum);
+
+    String orderId = RazorPay.createOrder(transactionId,
+                                          payment.getAmount());
 
     return true;
   }
 
   @Override
   public boolean preModify(CustomerPayment payment) {
-    
+
     return true;
   }
 }

@@ -6,12 +6,15 @@ import app.ecom.shopping.cart.ShoppingCart;
 import app.ecom.shopping.cart.ShoppingCartLineItem;
 import app.erp.finance.Tax;
 import app.erp.mdm.bp.Customer;
+import app.erp.mdm.bp.CustomerWallet;
+import app.erp.mdm.bp.CustomerWalletAmount;
 import app.erp.mdm.catalog.ProductLineItem;
 import app.erp.sales.SalesOrder;
 import app.erp.sales.SalesOrderLineItem;
 import meru.app.AppRequest;
 import meru.app.engine.entity.AbstractEntityLifeCycle;
 import meru.ecom.store.SessionShoppingCart;
+import meru.erp.mdm.bp.lifecycle.CustomerWalletAmountLifeCycle;
 import meru.erp.mdm.catalog.lifecycle.ProductLineItemLifeCycle;
 import meru.erp.sales.SalesOrderBag;
 import meru.erp.sales.SalesOrderBagProvider;
@@ -23,11 +26,15 @@ import meru.sys.SystemCalendar;
 public class ShoppingCartLifeCycle extends AbstractEntityLifeCycle<ShoppingCart> implements SalesOrderBagProvider {
 
   private ProductLineItemLifeCycle mProductLineItemLifeCycle;
+  private CustomerWalletAmountLifeCycle customerWalletAmountLifeCycle;
 
   @Override
   public void init() {
     mProductLineItemLifeCycle = appEngine.getEntityLifeCycle(ProductLineItem.class,
                                                              ProductLineItemLifeCycle.class);
+    customerWalletAmountLifeCycle = appEngine.getEntityLifeCycle(CustomerWalletAmount.class,
+                                                                 CustomerWalletAmountLifeCycle.class);
+
     SalesOrderLifeCycle salesOrderLifeCycle = appEngine.getEntityLifeCycle(SalesOrder.class,
                                                                            SalesOrderLifeCycle.class);
     salesOrderLifeCycle.setSalesOrderBagProvider(this);
@@ -124,6 +131,15 @@ public class ShoppingCartLifeCycle extends AbstractEntityLifeCycle<ShoppingCart>
                                 mProductLineItemLifeCycle.getTax(productLineItem));
       }
 
+      Customer customer = getCurrentCart().getCustomer();
+      if (customer != null) {
+        CustomerWallet wallet = customerWalletAmountLifeCycle.getWallet(customer.getId());
+        if (wallet.getAmount() > 0) {
+          shoppingBag.reduceWalletAmount(wallet.getAmount());
+        }
+      }
+      
+
       shoppingBag.compute();
     }
 
@@ -137,12 +153,11 @@ public class ShoppingCartLifeCycle extends AbstractEntityLifeCycle<ShoppingCart>
     if (lineItems != null && !lineItems.isEmpty()) {
       for (ShoppingCartLineItem lineItem : lineItems) {
         ProductLineItem productLineItem = lineItem.getProductLineItem();
-        
-//        if (!SalesOrderHelper.isOrderable(productLineItem)) {
-//          
-//        }
-        
-        
+
+        //        if (!SalesOrderHelper.isOrderable(productLineItem)) {
+        //          
+        //        }
+
         SalesOrderLineItem salesOrderLineItem = new SalesOrderLineItem();
         salesOrderLineItem.setSalesOrderId(salesOrder.getId());
 

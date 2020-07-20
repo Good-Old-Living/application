@@ -16,8 +16,8 @@ import app.erp.sales.SalesOrderLineItem;
 
 public class SalesOrderBag<T> {
 
-//  public static final int FREE_SHIPPING_ORDER = 500;
-//  public static final int DELIVERY_CHARGE = 20;
+  //  public static final int FREE_SHIPPING_ORDER = 500;
+  //  public static final int DELIVERY_CHARGE = 20;
 
   private int itemCount;
 
@@ -25,11 +25,12 @@ public class SalesOrderBag<T> {
   private float subTotal;
   private float savings;
   private float tax;
-//  private int pointsEarned;
+  //  private int pointsEarned;
   private int deliveryCharge;
 
   private List<T> lineItems;
   private Map<Float, SalesTax> taxSummary;
+  private int walletAmount;
 
   private SalesOffer salesOffer;
 
@@ -52,8 +53,7 @@ public class SalesOrderBag<T> {
     float price = 0;
     if (discount == null || discount == 0F) {
       price = mrp;
-    }
-    else {
+    } else {
       if (discountType != null) {
         discount = mrp * DiscountType.PERCENT.getValue(discount);
       }
@@ -98,6 +98,7 @@ public class SalesOrderBag<T> {
                                      discountType);
 
     grandTotal += totalPrice;
+    subTotal = grandTotal;
 
     SalesTax salesTax = taxSummary.get(taxRate);
     if (salesTax == null) {
@@ -114,6 +115,21 @@ public class SalesOrderBag<T> {
     itemCount++;
 
     return totalPrice;
+  }
+
+  public int reduceWalletAmount(int amount) {
+
+    int amountToDeduct = 0;
+    if (amount >= grandTotal) {
+      amountToDeduct = Math.round(grandTotal);
+      grandTotal = 0;
+    } else {
+      amountToDeduct = amount;
+      grandTotal -= amount;
+    }
+    walletAmount = amountToDeduct;
+    
+    return amountToDeduct;
   }
 
   @SuppressWarnings("unchecked")
@@ -141,37 +157,35 @@ public class SalesOrderBag<T> {
     lineItems.add((T) lineItem);
 
     float price = addItem(lineItem.getUnitMrp(),
-                          (lineItem.getNetQuantity() == null) ? lineItem.getQuantity()
-                              : lineItem.getNetQuantity(),
+                          (lineItem.getNetQuantity() == null) ? lineItem.getQuantity() : lineItem.getNetQuantity(),
                           lineItem.getDiscount(),
                           lineItem.getDiscountType(),
-                          lineItem.getTaxRate() == null ? 0F
-                              : lineItem.getTaxRate());
+                          lineItem.getTaxRate() == null ? 0F : lineItem.getTaxRate());
 
     lineItem.setTotalPrice(price);
   }
 
   public void compute() {
 
-//    for (SalesTax salesTax : taxSummary.values()) {
-//      tax += salesTax.compute();
-//    }
+    //    for (SalesTax salesTax : taxSummary.values()) {
+    //      tax += salesTax.compute();
+    //    }
 
-    subTotal = grandTotal;// - tax;
     subTotal = Float.parseFloat(EComAppProperty.FLOAT_FORMAT.format(subTotal));
 
     grandTotal = Float.parseFloat(EComAppProperty.FLOAT_FORMAT.format(grandTotal));
     savings = Float.parseFloat(EComAppProperty.FLOAT_FORMAT.format(savings));
     tax = Float.parseFloat(EComAppProperty.FLOAT_FORMAT.format(tax));
 
-//    pointsEarned = Math.round(grandTotal / 100);
+    //    pointsEarned = Math.round(grandTotal / 100);
     deliveryCharge = getDeliveryCharge(grandTotal);
+
   }
 
   public static final int getDeliveryCharge(float grandTotal) {
-//    if (grandTotal < FREE_SHIPPING_ORDER) {
-//      return DELIVERY_CHARGE;
-//    }
+    //    if (grandTotal < FREE_SHIPPING_ORDER) {
+    //      return DELIVERY_CHARGE;
+    //    }
 
     return 0;
   }
@@ -180,7 +194,6 @@ public class SalesOrderBag<T> {
     return lineItems;
   }
 
-  
   public SalesOffer getSalesOffer() {
     return salesOffer;
   }
@@ -205,13 +218,17 @@ public class SalesOrderBag<T> {
     return savings;
   }
 
+  public float getWalletAmount() {
+    return walletAmount;
+  }
+
   public float getTax() {
     return tax;
   }
 
-//  public int getPointsEarned() {
-//    return pointsEarned;
-//  }
+  //  public int getPointsEarned() {
+  //    return pointsEarned;
+  //  }
 
   public int getDeliveryCharge() {
     return deliveryCharge;

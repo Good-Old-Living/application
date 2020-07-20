@@ -2,51 +2,56 @@
 
     <xsd:import schemaLocation="$APPLICATION_HOME/module/ApplicationModule-Core/metadata/app-module/Core/Business Objects/app/domain/AppEntity.xsd" namespace="app.domain" />
     <xsd:import schemaLocation="$APPLICATION_HOME/module/ApplicationModule-Core/metadata/app-module/Core/Business Objects/app/domain/PropertyGroup.xsd" namespace="app.domain" />
-    <xsd:import
-        schemaLocation="$APPLICATION_HOME/module/ApplicationModule-Core/metadata/app-module/Core/Business Objects/app/domain/AppEntityState.xsd"
-        namespace="app.domain" />
-	<xsd:import schemaLocation="$APPLICATION_HOME/Application-ECom/metadata/app-module/Finance/Business Objects/app/erp/finance/PaymentMethod.xsd" namespace="app.erp.finance" />
+    <xsd:import schemaLocation="$APPLICATION_HOME/module/ApplicationModule-Core/metadata/app-module/Core/Business Objects/app/domain/AppEntityState.xsd" namespace="app.domain" />
+    <xsd:import schemaLocation="$APPLICATION_HOME/Application-ECom/metadata/app-module/Finance/Business Objects/app/erp/finance/PaymentMethod.xsd" namespace="app.erp.finance" />
 
-	<xsd:import schemaLocation="$APPLICATION_HOME/Application-ECom/metadata/app-module/Master Data Management/Business Objects/app/erp/mdm/bp/CustomerAddress.xsd" namespace="app.erp.mdm.bp" />
+<xsd:import schemaLocation="$APPLICATION_HOME/Application-ECom/metadata/app-module/Finance/Business Objects/app/erp/finance/PaymentMethod.xsd" namespace="app.erp.finance" />
+    <xsd:import schemaLocation="$APPLICATION_HOME/Application-ECom/metadata/app-module/Master Data Management/Business Objects/app/erp/mdm/bp/CustomerAddress.xsd" namespace="app.erp.mdm.bp" />
+    <xsd:include schemaLocation="PaymentTransaction.xsd" />
 
-
-	<xsd:complexType name="SalesOrder">
-		<xsd:complexContent>
-			<xsd:extension base="r:AppEntity">
-				<xsd:sequence>
-				    <xsd:element name="orderId" type="xsd:string"/>
-				    <xsd:element name="customerId" type="xsd:string"/>
-				    <xsd:element name="transactionId" type="xsd:string" minOccurs="0"/>
-				    <xsd:element name="sessionId" type="xsd:string"/>
-				    <xsd:element ref="deliveryAddress"/>
-				    <xsd:element name="deliveryAddressText" minOccurs="0">
+    <xsd:complexType name="SalesOrder">
+        <xsd:complexContent>
+            <xsd:extension base="r:AppEntity">
+                <xsd:sequence>
+                    <xsd:element name="orderId" type="xsd:string" />
+                    <xsd:element name="customerId" type="xsd:string" />
+                    <xsd:element name="transactionId" type="xsd:string" minOccurs="0" />
+                    <xsd:element name="sessionId" type="xsd:string" />
+                    <xsd:element ref="deliveryAddress" />
+                    <xsd:element name="deliveryAddressText" minOccurs="0">
                         <xsd:simpleType>
                             <xsd:restriction base="xsd:string">
                                 <xsd:maxLength value="500" />
                             </xsd:restriction>
                         </xsd:simpleType>
                     </xsd:element>
-				    <xsd:element name="createdOn" type="xsd:dateTime" />
-				    <xsd:element ref="f:paymentMethod"/>
-				    <xsd:element name="amount" type="xsd:float"/> 
-					<xsd:element name="code" type="xsd:string" minOccurs="0"/>
-					<xsd:element ref="state"/>
-					<xsd:element name="paymentReceived" type="xsd:boolean"/>
-					<xsd:element name="deliveryInstructions" type="xsd:string" minOccurs="0" >
+                    <xsd:element ref="f:paymentMethod" minOccurs="0"/>
+                    <xsd:element name="createdOn" type="xsd:dateTime" />
+                    <xsd:element name="amount" type="xsd:float" />
+                    <xsd:element name="code" type="xsd:string" minOccurs="0" />
+                    <xsd:element ref="state" />
+                    <xsd:element name="paymentReceived" type="xsd:boolean" />
+                    <xsd:element name="deliveryInstructions" type="xsd:string" minOccurs="0">
                         <xsd:simpleType>
                             <xsd:restriction base="xsd:string">
                                 <xsd:maxLength value="500" />
                             </xsd:restriction>
                         </xsd:simpleType>
                     </xsd:element>
-				</xsd:sequence>
-				<xsd:attribute name="uniqueKey" default="orderId"/>
-			</xsd:extension>
-		</xsd:complexContent>
+                    <xsd:element ref="paymentMode" />
+                    <xsd:element name="paymentOrderId" type="xsd:string" minOccurs="0" />
+                    <xsd:element name="paymentId" type="xsd:string" minOccurs="0" />
+                    <xsd:element name="paymentTransaction" type="PaymentTransaction" minOccurs="0" />
 
-	</xsd:complexType>
+                </xsd:sequence>
+                <xsd:attribute name="uniqueKey" default="orderId" />
+            </xsd:extension>
+        </xsd:complexContent>
 
-    <xsd:element name="salesOrder" type="SalesOrder"/>
-    <xsd:element name="deliveryAddress" type="b:CustomerAddress"/>
-    <xsd:element name="state" type="r:AppEntityState"/>
+    </xsd:complexType>
+
+    <xsd:element name="salesOrder" type="SalesOrder" />
+    <xsd:element name="deliveryAddress" type="b:CustomerAddress" />
+    <xsd:element name="state" type="r:AppEntityState" />
+    <xsd:element name="paymentMode" type="r:PropertyGroup" />
 </xsd:schema>
