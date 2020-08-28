@@ -28,6 +28,7 @@
                     <xsd:element ref="f:paymentMethod" minOccurs="0"/>
                     <xsd:element name="createdOn" type="xsd:dateTime" />
                     <xsd:element name="amount" type="xsd:float" />
+                    <xsd:element name="amountPaid" type="xsd:float" minOccurs="0" />
                     <xsd:element name="code" type="xsd:string" minOccurs="0" />
                     <xsd:element ref="state" />
                     <xsd:element name="paymentReceived" type="xsd:boolean" />

@@ -63,7 +63,6 @@ public class Application_EComEntityClassRegistry extends meru.app.registry.Entit
         addResourceClass("UserRole", app.domain.security.UserRole.class);
         addResourceClass("User", app.domain.security.User.class);
         addResourceClass("EnterpriseAddress", app.erp.EnterpriseAddress.class);
-        addResourceClass("AppError", app.erp.AppError.class);
         addResourceClass("Enterprise", app.erp.Enterprise.class);
         addResourceClass("SalesOrderComplimentaryItem", app.erp.marketing.SalesOrderComplimentaryItem.class);
         addResourceClass("SalesOffer", app.erp.marketing.SalesOffer.class);

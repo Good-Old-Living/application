@@ -65,7 +65,6 @@
         <class>app.domain.security.UserRole</class>
         <class>app.domain.security.User</class>
         <class>app.erp.EnterpriseAddress</class>
-        <class>app.erp.AppError</class>
         <class>app.erp.Enterprise</class>
         <class>app.erp.marketing.SalesOrderComplimentaryItem</class>
         <class>app.erp.marketing.SalesOffer</class>

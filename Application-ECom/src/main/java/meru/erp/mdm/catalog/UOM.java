@@ -36,6 +36,12 @@ public enum UOM {
                      return true;
                    }
                  },
+                 PACK {
+                   public boolean isUnitPrice() {
+
+                     return true;
+                   }
+                 },
                  PC {
                    public boolean isUnitPrice() {
 

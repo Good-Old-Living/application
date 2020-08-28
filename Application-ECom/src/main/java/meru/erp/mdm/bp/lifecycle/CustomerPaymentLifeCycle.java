@@ -1,12 +1,9 @@
 package meru.erp.mdm.bp.lifecycle;
 
-import com.razorpay.RazorpayException;
-
 import app.erp.mdm.bp.Customer;
 import app.erp.mdm.bp.CustomerPayment;
 import meru.app.engine.entity.AbstractEntityLifeCycle;
 import meru.erp.mdm.bp.PaymentDocumentId;
-import meru.exception.AppException;
 import meru.payment.razorpay.RazorPay;
 import meru.sys.SystemCalendar;
 
