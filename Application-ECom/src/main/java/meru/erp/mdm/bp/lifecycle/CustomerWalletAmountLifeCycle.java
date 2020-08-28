@@ -29,7 +29,8 @@ public class CustomerWalletAmountLifeCycle extends BusinessAppEntityLifeCycle<Cu
   public boolean preModify(CustomerWalletAmount walletAmount) {
 
     addMoney(walletAmount.getCustomerId(),
-             walletAmount.getAmount());
+             walletAmount.getAmount(),
+             walletAmount.getDescription());
     return false;
   }
 
@@ -52,10 +53,18 @@ public class CustomerWalletAmountLifeCycle extends BusinessAppEntityLifeCycle<Cu
 
   public void addMoney(Long customerId,
                        int amountToAdd) {
+    addMoney(customerId,
+             amountToAdd,
+             null);
+  }
 
-    if (amountToAdd <= 0) {
-      throw new AppException("Invalid wallet amount : " + amountToAdd);
-    }
+  public void addMoney(Long customerId,
+                       int amountToAdd,
+                       String description) {
+
+    //    if (amountToAdd <= 0) {
+    //      throw new AppException("Invalid wallet amount : " + amountToAdd);
+    //    }
 
     CustomerWallet wallet = getWallet(customerId);
     int amount = wallet.getAmount() + amountToAdd;
@@ -63,6 +72,7 @@ public class CustomerWalletAmountLifeCycle extends BusinessAppEntityLifeCycle<Cu
     CustomerWalletHistory walletHistory = createWalletHistory(wallet);
     walletHistory.setCurrAmount(amount);
     walletHistory.setAmountAdded(amountToAdd);
+    walletHistory.setDescription(description);
     wallet.setAmount(amount);
     wallet.setUpdatedOn(mSystemCalendar.getCalendar());
 
@@ -74,12 +84,12 @@ public class CustomerWalletAmountLifeCycle extends BusinessAppEntityLifeCycle<Cu
             customerId,
             walletTxn);
   }
-  
+
   public boolean hasMoney(Long customerId) {
     CustomerWallet wallet = getWallet(customerId);
     int amount = wallet.getAmount();
     return amount > 0;
-        
+
   }
 
   public void reduceMoney(Long customerId,

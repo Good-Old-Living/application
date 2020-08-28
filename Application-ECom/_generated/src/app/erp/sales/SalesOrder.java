@@ -46,6 +46,9 @@ public class SalesOrder extends AppEntity {
     @Column(name="amount", nullable=false)
     private Float amount;
 
+    @Column(name="amount_paid")
+    private Float amountPaid;
+
     @Column(name="code")
     private java.lang.String code;
 
@@ -162,6 +165,16 @@ public class SalesOrder extends AppEntity {
     public void setAmount(Float amount) {
 
         this.amount = amount;
+    }
+
+    public Float getAmountPaid() {
+        
+        return amountPaid;
+    }
+
+    public void setAmountPaid(Float amountPaid) {
+
+        this.amountPaid = amountPaid;
     }
 
     public java.lang.String getCode() {

@@ -14,9 +14,9 @@ public enum SalesOrderState {
                                              "Panding Delivery"),
                              Delivered(5,
                                        "Delivered"),
-                             CustomerCancelled(6,
+                             CustomerCancelled(10,
                                                "Cancelled By Customer"),
-                             Cancelled(7,
+                             Cancelled(11,
                                        "Cancelled");
 
   private int code;

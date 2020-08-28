@@ -13,13 +13,13 @@ import meru.exception.AppException;
 
 public class RazorPay {
 
-  //private static final String KEY_ID = "rzp_live_CxssayBNYmb52G";
-  //private static final String KEY_SECRET = "yOK8uj0ad0jOy5l5iM92fQPV";
-  private static final String KEY_ID = "rzp_test_SCdWZZP1AeijOH";
-  private static final String KEY_SECRET = "02NZcvrhbv3NT1Wcche1ibg8";
-  
+  private static final String KEY_ID = "rzp_live_CxssayBNYmb52G";
+  private static final String KEY_SECRET = "yOK8uj0ad0jOy5l5iM92fQPV";
+  //private static final String KEY_ID = "rzp_test_SCdWZZP1AeijOH";
+  //private static final String KEY_SECRET = "02NZcvrhbv3NT1Wcche1ibg8";
+
   public static String createOrder(String paymentTxnId,
-                            float amount) {
+                                   float amount) {
 
     try {
       RazorpayClient rpclient = new RazorpayClient(KEY_ID, KEY_SECRET);

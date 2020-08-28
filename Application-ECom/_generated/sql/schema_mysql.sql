@@ -50,7 +50,6 @@ drop table if exists sec_new_user;
 drop table if exists sec_user_role;
 drop table if exists sec_user;
 drop table if exists bus_enterprise_address;
-drop table if exists bus_app_error;
 drop table if exists bus_enterprise;
 drop table if exists mar_sales_order_complimentary_item;
 drop table if exists mar_sales_offer;
@@ -297,6 +296,7 @@ create table sales_sales_order (
     payment_method_id bigint,
     created_on timestamp not null,
     amount float not null,
+    amount_paid float,
     code varchar(100),
     state_id bigint not null,
     payment_received varchar(1) not null,
@@ -343,6 +343,7 @@ create table bp_customer_wallet_amount (
     id bigint not null primary key auto_increment,
     customer_id bigint not null,
     amount int not null,
+    description varchar(100),
     CONSTRAINT UK_bp_customer_wallet_amount__492871880 UNIQUE (customer_id)
 ) ENGINE=InnoDB;
 
@@ -589,13 +590,6 @@ create table bus_enterprise_address (
     address_id bigint not null,
     is_primary varchar(1),
     CONSTRAINT UK_bus_enterprise_address__1908266512 UNIQUE (enterprise_id,address_id)
-) ENGINE=InnoDB;
-
-create table bus_app_error (
-    id bigint not null primary key auto_increment,
-    source varchar(100) not null,
-    context varchar(100),
-    error varchar(1000) not null
 ) ENGINE=InnoDB;
 
 create table bus_enterprise (

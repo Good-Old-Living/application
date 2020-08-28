@@ -134,11 +134,10 @@ public class ShoppingCartLifeCycle extends AbstractEntityLifeCycle<ShoppingCart>
       Customer customer = getCurrentCart().getCustomer();
       if (customer != null) {
         CustomerWallet wallet = customerWalletAmountLifeCycle.getWallet(customer.getId());
-        if (wallet.getAmount() > 0) {
+        if (wallet.getAmount() != 0) {
           shoppingBag.reduceWalletAmount(wallet.getAmount());
         }
       }
-      
 
       shoppingBag.compute();
     }
@@ -219,6 +218,8 @@ public class ShoppingCartLifeCycle extends AbstractEntityLifeCycle<ShoppingCart>
     ShoppingCart shoppingCart = getCurrentCart();
     if (shoppingCart != null) {
       deleteShoppingCartLineItems(shoppingCart.getId());
+      appEngine.remove(ShoppingCart.class,
+                       shoppingCart.getId());
     }
   }
 

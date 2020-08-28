@@ -123,12 +123,15 @@ insert into core_app_hierarchical_entity(id, parent_id, type, name, kind, action
 insert into core_app_hierarchical_entity(id, parent_id, type, name, kind, action) values(124,101,'app-module-menu','Customer','entity','app/module/mdm/bp/Customer.xhtml');
 insert into core_app_hierarchical_entity(id, parent_id, type, name, kind, action) values(125,101,'app-module-menu','Housing Address','entity','app/module/mdm/bp/HousingComplexAddress.xhtml');
 insert into core_app_hierarchical_entity(id, parent_id, type, name, kind, action) values(126,101,'app-module-menu','Vegetable Price Upload','entity','app/module/mdm/catalog/VegetablePriceList.xhtml');
+insert into core_app_hierarchical_entity(id, parent_id, type, name, kind, action) values(127,101,'app-module-menu','Customer Shopping Cart','entity','app/module/mdm/bp/ShoppingCart.xhtml');
 
 insert into core_app_hierarchical_entity(id, parent_id, type, name, kind, action) values(401,104,'app-module-menu','Purchase Order','entity','app/module/purchase/PurchaseOrder.xhtml');
 
 insert into core_app_hierarchical_entity(id, parent_id, type, name, kind, action) values(501,105,'app-module-menu','Sales Order','entity','app/module/sales/SalesOrder.xhtml');
 insert into core_app_hierarchical_entity(id, parent_id, type, name, kind, action) values(502,105,'app-module-menu','Sales Invoice','entity','app/module/sales/SalesInvoice.xhtml');
 insert into core_app_hierarchical_entity(id, parent_id, type, name, kind, action) values(503,105,'app-module-menu','Veggies Summary','entity','app/module/sales/VeggiesSummary.xhtml');
+insert into core_app_hierarchical_entity(id, parent_id, type, name, kind, action) values(504,105,'app-module-menu','Product Summary','entity','app/module/sales/ProductSummary.xhtml');
+insert into core_app_hierarchical_entity(id, parent_id, type, name, kind, action) values(506,105,'app-module-menu','Batter Summary','entity','app/module/sales/BatterSummary.xhtml');
 
 delete from core_app_entity_sequence;
 insert into core_app_entity_sequence(id, name, value) values(1, 'SalesOrder.Id',1);
@@ -184,6 +187,24 @@ insert into core_housing_complex(id, name, address_id) values(1,'L&T South City'
 
 -- insert into core_city_area(id, name, city_id) values(21, 'Bellandur', 1);
 
+delete from core_city_area;
+
+insert into core_city_area(id, name, city_id) values(1, 'Arekere Mico Layout', 1);
+insert into core_city_area(id, name, city_id) values(2, 'Arekere Mico Layout 2nd Stage', 1);
+insert into core_city_area(id, name, city_id) values(3, 'Arekere', 1);
+
+insert into core_city_area(id, name, city_id) values(11, 'JP Nagar 1st Phase', 1);
+insert into core_city_area(id, name, city_id) values(12, 'JP Nagar 2nd Phase', 1);
+insert into core_city_area(id, name, city_id) values(13, 'JP Nagar 3rd Phase', 1);
+insert into core_city_area(id, name, city_id) values(14, 'JP Nagar 4th Phase', 1);
+insert into core_city_area(id, name, city_id) values(15, 'JP Nagar 5th Phase', 1);
+insert into core_city_area(id, name, city_id) values(16, 'JP Nagar 6th Phase', 1);
+insert into core_city_area(id, name, city_id) values(17, 'JP Nagar 7th Phase', 1);
+insert into core_city_area(id, name, city_id) values(18, 'JP Nagar 8th Phase', 1);
+
+insert into core_city_area(id, name, city_id) values(101, 'Ballendur', 1);
+
+
 
 
 delete from fin_tax;
@@ -199,12 +220,15 @@ insert into mdm_product_category(id, parent_id, name, type, kind, qualified_name
 insert into mdm_product_category(id, parent_id, name, type, kind, qualified_name, sort_order, is_active, tax_id) values (3, NULL, 'Ready To Cook', 'category', 'module', '/Ready To Cook', 2, 'Y', 1);
 insert into mdm_product_category(id, parent_id, name, type, kind, qualified_name, sort_order, is_active, tax_id) values (4, NULL, 'Ready To Eat', 'category', 'module', '/Ready To Eat', 3, 'Y', 1);
 insert into mdm_product_category(id, parent_id, name, type, kind, qualified_name, sort_order, is_active, tax_id) values (5, NULL, 'Dairy Products', 'category', 'module', '/Dairy Products', 4, 'Y', 1);
+insert into mdm_product_category(id, parent_id, name, type, kind, qualified_name, sort_order, is_active, tax_id) values (7, NULL, 'Health Care', 'category', 'module', '/Health Care', 5, 'Y', 1);
+insert into mdm_product_category(id, parent_id, name, type, kind, qualified_name, sort_order, is_active, tax_id) values (10, NULL, 'Household', 'category', 'module', '/Household', 6, 'Y', 1);
 
 -- Fruits & Vegetables
+
 insert into mdm_product_category(id, parent_id, name, type, kind, qualified_name, sort_order, is_active, availability, notes, tax_id) values (101, 1, 'Organic Fruits', 'category', 'module', '/Fruits & Vegetables/Organic Fruits', 0, 'Y', 'Available only on Tuesdays depending on the availability', 'Organic fruits supply will be available only on Tuesdays. Booking will be open on Sunday and closed at Monday 12PM.',1);
 insert into mdm_product_category(id, parent_id, name, type, kind, qualified_name, sort_order, is_active, availability, notes, tax_id) values (102, 1, 'Organic Vegetables', 'category', 'module', '/Fruits & Vegetables/Organic Vegetables', 1, 'Y', 'Available only on Tuesdays depending on the availability', 'Organic vvegetables supply will be available only on Tuesdays. Booking will be open on Sunday and closed at Monday 12PM.',1);
 insert into mdm_product_category(id, parent_id, name, type, kind, qualified_name, sort_order, is_active, availability, notes, tax_id) values (103, 1, 'Organic Leafy Greens', 'category', 'module', '/Fruits & Vegetables/Organic Leafy Greens', 2, 'Y', 'Available only on Tuesdays depending on the availability','Organic greens supply will be available only on Tuesdays. Booking will be open on Sunday and closed at Monday 12PM.',1);
-
+insert into mdm_product_category(id, parent_id, name, type, kind, qualified_name, sort_order, is_active, availability, notes, tax_id) values (104, 1, 'Vegetables', 'category', 'module', '/Fruits & Vegetables/Vegetables', 3, 'Y', NULL, NULL,1);
 
 
 -- insert into mdm_product_category(id, parent_id, name, type, kind, qualified_name, sort_order, is_active, availability, tax_id) values ('FRVG11', 'FRVG1', 'Apple', 'category', 'module', '/Fruits & Vegetables/Organic Fruits/Banana Elaichi', 0, 'Y', 'Available only on Tuesdays and Fridays depending on the availability', 1);
@@ -230,6 +254,7 @@ insert into mdm_product_category(id, parent_id, name, type, kind, qualified_name
 insert into mdm_product_category(id, parent_id, name, type, kind, qualified_name, sort_order, is_active, tax_id) values (4001, 4, 'Cereals', 'category', 'module', '/Ready To Eat/Cereals', 1, 'Y', 1);
 insert into mdm_product_category(id, parent_id, name, type, kind, qualified_name, sort_order, is_active, tax_id) values (4002, 4, 'Cookies and Snacks', 'category', 'module', '/Ready To Eat/Cookies and Snacks', 2, 'Y', 1);
 insert into mdm_product_category(id, parent_id, name, type, kind, qualified_name, sort_order, is_active, tax_id) values (4003, 4, 'Dry Fruits', 'category', 'module', '/Ready To Eat/Dry Fruits', 2, 'Y', 1);
+insert into mdm_product_category(id, parent_id, name, type, kind, qualified_name, sort_order, is_active, tax_id, orderable) values (4004, 4, 'Breads', 'category', 'module', '/Breakfast & Snacks/Breads', 2, 'Y', 1, 'Y');
 
 -- Millet Snacks
 insert into mdm_product_category(id, parent_id, name, type, kind, qualified_name, sort_order, is_active, tax_id) values (40021, 4002, 'Millet Cookies', 'category', 'module', '/Ready To Eat/Cookies and Snacks/Millet Cookies', 8, 'Y', 1);
@@ -237,6 +262,13 @@ insert into mdm_product_category(id, parent_id, name, type, kind, qualified_name
 
 -- Dairy Produc
 insert into mdm_product_category(id, parent_id, name, type, kind, qualified_name, sort_order, is_active, tax_id) values (5001, 5, 'Ghee, Butter & Paneer', 'category', 'module', '/Dairy Products/Ghee, Butter & Paneer', 0, 'Y', 2);
+
+-- Health Care
+insert into mdm_product_category(id, parent_id, name, type, kind, qualified_name, sort_order, is_active, tax_id) values (7001, 7, 'Health Mix', 'category', 'module', '/Health Care/Health Mix', 0, 'Y', 1);
+insert into mdm_product_category(id, parent_id, name, type, kind, qualified_name, sort_order, is_active, tax_id) values (7002, 7, 'Herbal Extracts', 'category', 'module', '/Health Care/Herbal Extracts', 0, 'Y', 2);
+
+-- Household
+insert into mdm_product_category(id, parent_id, name, type, kind, qualified_name, sort_order, is_active, tax_id) values (10001, 10, 'Puja Items', 'category', 'module', '/Household/Puja Items', 0, 'Y', 1);
 
 delete from core_schedule;
 insert into core_schedule(id, name, action_class, type, start_time, end_time, trigger_on_start, schedule_trigger_id) values(1, 'Email Dispatch', 'meru.app.service.schedule.job.EmailScheduleJob', 'second', NULL, NULL, 'Y', 1);

@@ -17,6 +17,9 @@ public class CustomerWalletAmount extends AppEntity {
     @Column(name="amount", nullable=false)
     private Integer amount;
 
+    @Column(name="description")
+    private java.lang.String description;
+
     public Long getCustomerId() {
         
         return customerId;
@@ -35,5 +38,15 @@ public class CustomerWalletAmount extends AppEntity {
     public void setAmount(Integer amount) {
 
         this.amount = amount;
+    }
+
+    public java.lang.String getDescription() {
+        
+        return description;
+    }
+
+    public void setDescription(java.lang.String description) {
+
+        this.description = description;
     }
 }

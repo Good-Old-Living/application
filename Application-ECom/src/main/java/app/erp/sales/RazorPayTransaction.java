@@ -4,9 +4,30 @@ import app.domain.AppEntity;
 
 public class RazorPayTransaction extends AppEntity {
 
+  private java.lang.String sessionId;
+  private java.lang.String customerId;
+
   private java.lang.String paymentOrderId;
 
-  private java.lang.String paymentId;
+  private java.lang.String transactionId;
+
+  private float amount;
+
+  public java.lang.String getSessionId() {
+    return sessionId;
+  }
+
+  public void setSessionId(java.lang.String sessionId) {
+    this.sessionId = sessionId;
+  }
+
+  public java.lang.String getCustomerId() {
+    return customerId;
+  }
+
+  public void setCustomerId(java.lang.String customerId) {
+    this.customerId = customerId;
+  }
 
   public java.lang.String getPaymentOrderId() {
 
@@ -18,13 +39,22 @@ public class RazorPayTransaction extends AppEntity {
     this.paymentOrderId = paymentOrderId;
   }
 
-  public java.lang.String getPaymentId() {
+  public java.lang.String getTransactionId() {
 
-    return paymentId;
+    return transactionId;
   }
 
-  public void setPaymentId(java.lang.String paymentId) {
+  public void setTransactionId(java.lang.String transactionId) {
 
-    this.paymentId = paymentId;
+    this.transactionId = transactionId;
+  }
+
+  public float getAmount() {
+    return amount;
+
+  }
+
+  public void setAmount(float amount) {
+    this.amount = amount;
   }
 }
