@@ -40,6 +40,17 @@ public abstract class BusinessAppEntityLifeCycle<T> extends AbstractEntityLifeCy
   protected void sendSMS(String templateFile,
                          String mobileNo,
                          Object data) {
+    sendSMS(templateFile,
+            null,
+            mobileNo,
+            data);
+
+  }
+
+  protected void sendSMS(String templateFile,
+                         String smsTemplateId,
+                         String mobileNo,
+                         Object data) {
 
     HttpSMSSender smsSender = serviceManager.getService(ServiceManager.SMS_SENDER,
                                                         HttpSMSSender.class);
@@ -55,13 +66,14 @@ public abstract class BusinessAppEntityLifeCycle<T> extends AbstractEntityLifeCy
     String message = TemplateEngine.getText(templateText,
                                             templateData);
 
-    smsSender.send(mobileNo,
+    smsSender.send(smsTemplateId,
+                   mobileNo,
                    message);
 
   }
 
   private synchronized String loadTemplate(String templateFilePath) {
-    
+
     String templateText = templateMap.get(templateFilePath);
     if (templateText == null) {
 
@@ -72,10 +84,10 @@ public abstract class BusinessAppEntityLifeCycle<T> extends AbstractEntityLifeCy
 
     return templateText;
   }
-  
+
   protected InputStream getResourcesStream(String resourceFile) {
 
-    return appContext.getInputStream(AppProperty.RESOURCES_DIR+resourceFile);
+    return appContext.getInputStream(AppProperty.RESOURCES_DIR + resourceFile);
 
   }
 }

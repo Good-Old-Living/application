@@ -226,6 +226,7 @@ public class SalesOrderLifeCycle extends BusinessAppEntityLifeCycle<SalesOrder> 
 
     try {
       sendSMS("OrderPlaced.txt",
+              "1107161540191131750",
               notifyMobile,
               salesOrder);
     } catch (Exception e) {

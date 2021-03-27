@@ -16,6 +16,7 @@ import meru.application.AppType;
 import meru.application.security.Password;
 import meru.application.security.SecurityAppProperty;
 import meru.comm.mobile.http.HttpSMSSender;
+import meru.comm.mobile.http.OTPSender;
 import meru.exception.AppException;
 import meru.persistence.EntityQuery;
 import meru.sys.AppHelper;
@@ -31,6 +32,7 @@ public abstract class AccountAction {
   protected AppContext appContext;
   protected AppEngine appEngine;
   private HttpSMSSender smsSender;
+  private OTPSender otpSender;
   protected RandomIntegerKeyGenerator randomIntegerKeyGenerator;
   protected SystemCalendar systemCalendar;
 
@@ -47,6 +49,8 @@ public abstract class AccountAction {
     smsSender = serviceManager.getService(ServiceManager.SMS_SENDER,
                                           HttpSMSSender.class);
     init();
+
+    otpSender = new OTPSender();
   }
 
   protected void init() {
@@ -130,15 +134,18 @@ public abstract class AccountAction {
 
     return user;
   }
-  
-  protected void updateUserOTP(User user, AppType appType) {
+
+  protected void updateUserOTP(User user,
+                               AppType appType) {
     String otp = randomIntegerKeyGenerator.getKey();
     System.out.println(">>>>> OTP " + otp);
     user.setMobileAccessToken(Password.encryptPassword(otp));
 
     appEngine.save(user);
-    
-    sendOTP(user.getMobile(), otp, appType);
+
+    sendOTP(user.getMobile(),
+            otp,
+            appType);
   }
 
   protected void postUserCreate(String name,
@@ -178,20 +185,34 @@ public abstract class AccountAction {
                          AppType appType) {
 
     String otpFile = null;
+    String smsTemplateId = null;
     switch (appType) {
-    case ANDROID:
-      otpFile = "OTPAndroid.txt";
-      break;
-    default:
-      otpFile = "GOLWebOTP.txt";
+      case ANDROID:
+        otpFile = "OTPAndroid.txt";
+        smsTemplateId = "1107161540183468316";
+        break;
+      default:
+        otpFile = "GOLWebOTP.txt";
+        smsTemplateId = "1107161540156651365";
     }
 
     String text = IOSystem.read(appContext.getInputStream(SecurityAppProperty.TEMPLATE_DIR_SMS + otpFile));
     text = text.replace("#{code}",
                         otp);
-    System.out.println(">> SMS "+text+" "+AppConstants.COUNTRY_PHONE_CODE + mobileNo);
-    smsSender.send(AppConstants.COUNTRY_PHONE_CODE + mobileNo,
+    System.out.println(">> SMS " + text + " " + AppConstants.COUNTRY_PHONE_CODE + mobileNo);
+    smsSender.send(smsTemplateId,
+                   AppConstants.COUNTRY_PHONE_CODE + mobileNo,
                    text);
+
+  }
+
+  protected void sendOTP1(String mobileNo,
+                          String otp,
+                          AppType appType) {
+
+    System.out.println(">> SMS " + otp + " " + AppConstants.COUNTRY_PHONE_CODE + mobileNo);
+    otpSender.send(AppConstants.COUNTRY_PHONE_CODE + mobileNo,
+                   otp);
 
   }
 
